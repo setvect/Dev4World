@@ -13,19 +13,18 @@ public class DiTestCase {
 
 	@Test
 	public void DI테스트_Dog() {
-		try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("b_di/config_1.xml")) {
+		try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("b_di/config_di.xml")) {
 			MyPet pet = (MyPet) context.getBean("myDog");
 			Assert.assertNotNull(pet);
 			String message = pet.getMessage();
 			LOGGER.info(message);
 			Assert.assertThat(message, is("주인님"));
 		}
-
 	}
 
 	@Test
 	public void DI테스트_Cat() {
-		try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("b_di/config_1.xml")) {
+		try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("b_di/config_di.xml")) {
 			MyPet pet = (MyPet) context.getBean("myCat");
 			Assert.assertNotNull(pet);
 			String message = pet.getMessage();
