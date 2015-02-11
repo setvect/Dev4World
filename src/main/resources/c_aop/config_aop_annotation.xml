@@ -4,19 +4,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
+	<aop:aspectj-autoproxy />
+
 	<bean id="memoProcessor" class="com.dev4world.c_aop.MemoProcessor" />
 
 	<!-- Definition for logging aspect -->
-	<bean id="logging" class="com.dev4world.c_aop.Observer" />
-
-	<aop:config>
-		<aop:pointcut id="targetMethod"
-			expression="execution(* com.dev4world.c_aop.*.*(..))" />
-		<aop:aspect ref="logging">
-			<aop:before pointcut-ref="targetMethod" method="beforeAdvice" />
-			<aop:after-returning pointcut-ref="targetMethod"
-				method="afterReturningAdvice" returning="retVal" />
-		</aop:aspect>
-	</aop:config>
-
+	<bean id="logging" class="com.dev4world.c_aop.ObserverAnnotation" />
 </beans>
