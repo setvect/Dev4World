@@ -8,14 +8,23 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class AopTestCase {
 
-	private static final String CONFIG_FILE = "c_aop/config_aop.xml";
-	// private static final String CONFIG_FILE =
-	// "c_aop/config_aop_annotation.xml";
 	private static final Logger LOGGER = LoggerFactory.getLogger(AopTestCase.class);
 
 	@Test
-	public void AOP_테스트() {
-		try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(CONFIG_FILE)) {
+	public void AOP_테스트XML기반() {
+		try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("c_aop/config_aop.xml")) {
+			MemoProcessor myMemo = (MemoProcessor) context.getBean("memoProcessor");
+			Assert.assertNotNull(myMemo);
+			myMemo.add("코스모스가 많이도 핀 가을날...");
+			String title = myMemo.get(1);
+			System.out.println("리턴값: " + title);
+		}
+	}
+
+	@Test
+	public void AOP_테스트Annotation기반() {
+		try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				"c_aop/config_aop_annotation.xml")) {
 			MemoProcessor myMemo = (MemoProcessor) context.getBean("memoProcessor");
 			Assert.assertNotNull(myMemo);
 			myMemo.add("코스모스가 많이도 핀 가을날...");

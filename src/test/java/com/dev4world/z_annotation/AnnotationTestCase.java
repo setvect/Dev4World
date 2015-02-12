@@ -10,7 +10,7 @@ import org.junit.Test;
 public class AnnotationTestCase {
 
 	@Test
-	public void testAnnotation() throws ClassNotFoundException, NoSuchMethodException, SecurityException {
+	public void annotation테스트() throws ClassNotFoundException, NoSuchMethodException, SecurityException {
 
 		@SuppressWarnings("unchecked")
 		Class<SampleObject> sampleClass = (Class<SampleObject>) Class
