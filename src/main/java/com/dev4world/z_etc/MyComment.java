@@ -1,4 +1,4 @@
-package com.dev4world.z_annotation;
+package com.dev4world.z_etc;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

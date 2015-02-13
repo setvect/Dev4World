@@ -7,6 +7,9 @@ import java.lang.reflect.Method;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.dev4world.z_etc.MyComment;
+import com.dev4world.z_etc.SampleObject;
+
 public class AnnotationTestCase {
 
 	@Test
