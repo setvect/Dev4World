@@ -1,5 +1,7 @@
 package com.dev4world.ctmemo.dao.hibernate.h2;
 
+import org.springframework.stereotype.Service;
+
 import com.dev4world.ctmemo.dao.hibernate.AbstractCtmemoDao;
 
 /**
@@ -7,5 +9,6 @@ import com.dev4world.ctmemo.dao.hibernate.AbstractCtmemoDao;
  * 
  * @version $Id$
  */
+@Service
 public class H2CtmemoDao extends AbstractCtmemoDao {
 }

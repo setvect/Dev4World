@@ -26,47 +26,47 @@ public class Ctmemo {
 	private int ctmemoSeq;
 
 	/** 내용 */
-	@Column(name = "CONTENT")
+	@Column(name = "CONTENT", length = 4000, nullable = false)
 	private String content;
 
 	/** 글자색 css */
-	@Column(name = "FONT_CSS")
+	@Column(name = "FONT_CSS", length = 20, nullable = false)
 	private String fontCss;
 
 	/** 배경색 css */
-	@Column(name = "BG_CSS")
+	@Column(name = "BG_CSS", length = 20, nullable = false)
 	private String bgCss;
 
 	/** HTML 레이어에서 Z-INDEX */
-	@Column(name = "Z_INDEX")
+	@Column(name = "Z_INDEX", nullable = false)
 	private int zIndex;
 
 	/** 넓이(픽셀) */
-	@Column(name = "WIDTH")
-	private String width;
+	@Column(name = "WIDTH", nullable = false)
+	private int width;
 
 	/** 높이(픽셀 */
-	@Column(name = "HEIGHT")
-	private String height;
+	@Column(name = "HEIGHT", nullable = false)
+	private int height;
 
 	/** 좌표 X */
-	@Column(name = "POSITION_X")
-	private String positionX;
+	@Column(name = "POSITION_X", nullable = false)
+	private int positionX;
 
 	/** 좌표 Y */
-	@Column(name = "POSITION_Y")
-	private String positionY;
+	@Column(name = "POSITION_Y", nullable = false)
+	private int positionY;
 
 	/** 마지막 수정일 */
-	@Column(name = "UPT_DATE")
+	@Column(name = "UPT_DATE", nullable = false)
 	private Date uptDate;
 
 	/** 처음 등록일 */
-	@Column(name = "REG_DATE")
+	@Column(name = "REG_DATE", nullable = false)
 	private Date regDate;
 
 	/** 삭제여부 */
-	@Column(name = "DELETE_F")
+	@Column(name = "DELETE_F", length = 1, nullable = false)
 	@Type(type = "yes_no")
 	private boolean deleteF;
 
@@ -148,7 +148,7 @@ public class Ctmemo {
 	/**
 	 * @return the width
 	 */
-	public String getWidth() {
+	public int getWidth() {
 		return width;
 	}
 
@@ -156,14 +156,14 @@ public class Ctmemo {
 	 * @param width
 	 *            the width to set
 	 */
-	public void setWidth(String width) {
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
 	/**
 	 * @return the height
 	 */
-	public String getHeight() {
+	public int getHeight() {
 		return height;
 	}
 
@@ -171,14 +171,14 @@ public class Ctmemo {
 	 * @param height
 	 *            the height to set
 	 */
-	public void setHeight(String height) {
+	public void setHeight(int height) {
 		this.height = height;
 	}
 
 	/**
 	 * @return the positionX
 	 */
-	public String getPositionX() {
+	public int getPositionX() {
 		return positionX;
 	}
 
@@ -186,14 +186,14 @@ public class Ctmemo {
 	 * @param positionX
 	 *            the positionX to set
 	 */
-	public void setPositionX(String positionX) {
+	public void setPositionX(int positionX) {
 		this.positionX = positionX;
 	}
 
 	/**
 	 * @return the positionY
 	 */
-	public String getPositionY() {
+	public int getPositionY() {
 		return positionY;
 	}
 
@@ -201,7 +201,7 @@ public class Ctmemo {
 	 * @param positionY
 	 *            the positionY to set
 	 */
-	public void setPositionY(String positionY) {
+	public void setPositionY(int positionY) {
 		this.positionY = positionY;
 	}
 
