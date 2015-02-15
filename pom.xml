@@ -64,12 +64,18 @@
 			<artifactId>egovframework.rte.fdl.property</artifactId>
 			<version>${egovframework.rte.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.maven.artifact.version}</version>
-		</dependency>		
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.maven.artifact.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -123,7 +129,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.3.8.Final</version>
+			<version>4.2.11.Final</version>
 		</dependency>
 
 		<dependency>
@@ -133,9 +139,18 @@
 			<scope>test</scope>
 		</dependency>
 
+    <dependency>
+    	<groupId>com.setvect</groupId>
+    	<artifactId>setvect</artifactId>
+    	<version>1.0</version>
+    	<scope>system</scope>
+    	<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/setvect.jar</systemPath>
+    </dependency>
+
 	</dependencies>
 	<build>
 		<finalName>dev4world</finalName>
+		
 		<pluginManagement>
 			<plugins>
 				<plugin>
