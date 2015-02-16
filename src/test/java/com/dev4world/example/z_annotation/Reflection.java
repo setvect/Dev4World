@@ -1,4 +1,4 @@
-package com.dev4world.z_annotation;
+package com.dev4world.example.z_annotation;
 
 import org.junit.Test;
 

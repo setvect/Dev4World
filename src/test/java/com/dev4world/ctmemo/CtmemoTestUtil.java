@@ -2,7 +2,6 @@ package com.dev4world.ctmemo;
 
 import java.util.Date;
 
-import com.dev4world.ctmemo.vo.Ctmemo;
 import com.setvect.common.date.DateUtil;
 
 public class CtmemoTestUtil {

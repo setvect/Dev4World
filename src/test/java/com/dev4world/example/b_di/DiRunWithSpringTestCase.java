@@ -1,4 +1,4 @@
-package com.dev4world.b_di;
+package com.dev4world.example.b_di;
 
 import static org.hamcrest.CoreMatchers.is;
 
@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.dev4world.example.b_di.MyPet;
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:b_di/config_di.xml" })
+@ContextConfiguration(locations = { "classpath:example/config_di.xml" })
 public class DiRunWithSpringTestCase {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DiRunWithSpringTestCase.class);
 

@@ -8,10 +8,10 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.dev4world.ctmemo.Ctmemo;
 import com.dev4world.ctmemo.CtmemoSearchCondition;
 import com.dev4world.ctmemo.CtmemoTestBase;
 import com.dev4world.ctmemo.CtmemoTestUtil;
-import com.dev4world.ctmemo.vo.Ctmemo;
 
 public class CtmemoServiceTestCase extends CtmemoTestBase {
 	@Inject

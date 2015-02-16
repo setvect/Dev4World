@@ -1,4 +1,4 @@
-package com.dev4world.c_aop;
+package com.dev4world.example.c_aop;
 
 public class MemoProcessor {
 	public void add(String title) {

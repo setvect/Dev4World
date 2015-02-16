@@ -1,4 +1,4 @@
-package com.dev4world.z_etc;
+package com.dev4world.example.z_etc;
 
 public class NewsArticle {
 	public String title;

@@ -4,10 +4,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-	<bean id="memoProcessor" class="com.dev4world.c_aop.MemoProcessor" />
+	<bean id="memoProcessor" class="com.dev4world.example.c_aop.MemoProcessor" />
 
 	<!-- Definition for logging aspect -->
-	<bean id="logging" class="com.dev4world.c_aop.Observer" />
+	<bean id="logging" class="com.dev4world.example.c_aop.Observer" />
 
 	<aop:config>
 		<aop:pointcut id="targetMethod"

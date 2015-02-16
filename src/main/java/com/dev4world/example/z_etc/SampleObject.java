@@ -1,4 +1,4 @@
-package com.dev4world.z_etc;
+package com.dev4world.example.z_etc;
 
 public class SampleObject {
 	@MyComment(value = "해담이가 아니고 해다미")

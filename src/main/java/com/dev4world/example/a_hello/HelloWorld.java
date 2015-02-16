@@ -1,4 +1,4 @@
-package com.dev4world.a_hello;
+package com.dev4world.example.a_hello;
 
 public class HelloWorld {
 	public static void main(String[] args) {

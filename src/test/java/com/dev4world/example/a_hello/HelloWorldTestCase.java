@@ -1,9 +1,11 @@
-package com.dev4world.a_hello;
+package com.dev4world.example.a_hello;
 
 import static org.hamcrest.CoreMatchers.is;
 
 import org.junit.Assert;
 import org.junit.Test; 
+
+import com.dev4world.example.a_hello.HelloWorld;
 
 public class HelloWorldTestCase {
 	@Test

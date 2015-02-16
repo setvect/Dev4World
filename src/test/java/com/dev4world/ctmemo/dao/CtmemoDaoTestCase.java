@@ -1,6 +1,5 @@
 package com.dev4world.ctmemo.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,11 +8,10 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.dev4world.ctmemo.Ctmemo;
 import com.dev4world.ctmemo.CtmemoSearchCondition;
 import com.dev4world.ctmemo.CtmemoTestBase;
 import com.dev4world.ctmemo.CtmemoTestUtil;
-import com.dev4world.ctmemo.vo.Ctmemo;
-import com.setvect.common.date.DateUtil;
 
 public class CtmemoDaoTestCase extends CtmemoTestBase {
 

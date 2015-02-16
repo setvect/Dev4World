@@ -1,4 +1,4 @@
-package com.dev4world.b_di;
+package com.dev4world.example.b_di;
 
 public class CatMessageImpl implements Pet {
 	@Override

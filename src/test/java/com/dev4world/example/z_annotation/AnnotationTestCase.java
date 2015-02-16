@@ -1,4 +1,4 @@
-package com.dev4world.z_annotation;
+package com.dev4world.example.z_annotation;
 
 import static org.hamcrest.CoreMatchers.is;
 
@@ -7,8 +7,8 @@ import java.lang.reflect.Method;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.dev4world.z_etc.MyComment;
-import com.dev4world.z_etc.SampleObject;
+import com.dev4world.example.z_etc.MyComment;
+import com.dev4world.example.z_etc.SampleObject;
 
 public class AnnotationTestCase {
 
@@ -17,7 +17,7 @@ public class AnnotationTestCase {
 
 		@SuppressWarnings("unchecked")
 		Class<SampleObject> sampleClass = (Class<SampleObject>) Class
-				.forName("com.dev4world.z_annotation.SampleObject");
+				.forName("com.dev4world.example.z_etc.SampleObject");
 
 		Method method = sampleClass.getMethod("getMessage", null);
 

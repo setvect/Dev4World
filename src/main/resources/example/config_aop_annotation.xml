@@ -6,8 +6,8 @@
 
 	<aop:aspectj-autoproxy />
 
-	<bean id="memoProcessor" class="com.dev4world.c_aop.MemoProcessor" />
+	<bean id="memoProcessor" class="com.dev4world.example.c_aop.MemoProcessor" />
 
 	<!-- Definition for logging aspect -->
-	<bean id="logging" class="com.dev4world.c_aop.ObserverAnnotation" />
+	<bean id="logging" class="com.dev4world.example.c_aop.ObserverAnnotation" />
 </beans>
