@@ -38,7 +38,11 @@
 				item.find("._header").append(regDate.format("yy.MM.dd HH.mm"));
 				$("#space").append(item);
 			});
-			$("._item" ).draggable();
+			$("._item" ).draggable().resizable({   
+				maxHeight: 300,
+			   maxWidth: 300,
+			   minHeight: 80,
+			   minWidth: 80});
 		});
 	}
 	
