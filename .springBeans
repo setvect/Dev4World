@@ -9,6 +9,9 @@
 	<configs>
 		<config>src/main/resources/c_aop/config_aop.xml</config>
 		<config>src/main/resources/b_di/config_di.xml</config>
+		<config>src/main/resources/c_aop/config_aop_annotation.xml</config>
+		<config>src/main/resources/spring/context-common.xml</config>
+		<config>src/main/resources/spring/context-hibernate.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

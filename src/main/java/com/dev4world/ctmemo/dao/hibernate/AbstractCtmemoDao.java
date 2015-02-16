@@ -30,7 +30,7 @@ public abstract class AbstractCtmemoDao implements CtmemoDao {
 	@Override
 	public List<Ctmemo> listCtmemo(CtmemoSearchCondition condition) {
 		Session session = sessionFactory.getCurrentSession();
-		String q = " from Ctmemo where DeleteF = 'N'";
+		String q = " from Ctmemo where deleteF = 'N'";
 		Query query = session.createQuery(q);
 
 		@SuppressWarnings("unchecked")
@@ -45,13 +45,13 @@ public abstract class AbstractCtmemoDao implements CtmemoDao {
 	}
 
 	@Override
-	public void updateBoard(Ctmemo ctmemo) {
+	public void updateCtmemo(Ctmemo ctmemo) {
 		Session session = sessionFactory.getCurrentSession();
 		session.update(ctmemo);
 	}
 
 	@Override
-	public void removeBoard(int ctmemoId) {
+	public void deleteCtmemo(int ctmemoId) {
 		Session session = sessionFactory.getCurrentSession();
 		session.delete(getCtmemo(ctmemoId));
 	}

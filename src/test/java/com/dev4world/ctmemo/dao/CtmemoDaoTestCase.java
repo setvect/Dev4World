@@ -1,15 +1,18 @@
 package com.dev4world.ctmemo.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang3.time.DateUtils;
+import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.dev4world.ctmemo.CtmemoSearchCondition;
 import com.dev4world.ctmemo.vo.Ctmemo;
 import com.setvect.common.date.DateUtil;
 
@@ -38,6 +41,24 @@ public class CtmemoDaoTestCase {
 		ctmemo.setRegDate(date);
 		ctmemo.setUptDate(date);
 		dao.insert(ctmemo);
-		Thread.sleep(1000000);
+
+		Ctmemo getmemo = dao.getCtmemo(ctmemo.getCtmemoSeq());
+		Assert.assertThat(ctmemo, CoreMatchers.is(getmemo));
+
+		CtmemoSearchCondition condition = new CtmemoSearchCondition();
+		List<Ctmemo> list = dao.listCtmemo(condition);
+		Assert.assertThat(list.size(), CoreMatchers.is(1));
+
+		String content = "내사랑 복슬이";
+		ctmemo.setContent(content);
+		dao.updateCtmemo(ctmemo);
+
+		Ctmemo result = dao.getCtmemo(ctmemo.getCtmemoSeq());
+		Assert.assertThat(content, CoreMatchers.is(result.getContent()));
+
+		dao.deleteCtmemo(ctmemo.getCtmemoSeq());
+		list = dao.listCtmemo(condition);
+		Assert.assertThat(list.size(), CoreMatchers.is(0));
+
 	}
 }

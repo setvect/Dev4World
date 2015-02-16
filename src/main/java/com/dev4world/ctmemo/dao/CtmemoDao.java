@@ -27,10 +27,10 @@ public interface CtmemoDao {
 	/**
 	 * @param article
 	 */
-	public void updateBoard(Ctmemo ctmemo);
+	public void updateCtmemo(Ctmemo ctmemo);
 
 	/**
 	 * @param articleSeq
 	 */
-	public void removeBoard(int ctmemoId);
+	public void deleteCtmemo(int ctmemoId);
 }
