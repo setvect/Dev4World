@@ -6,9 +6,9 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.dev4world.ctmemo.Ctmemo;
 import com.dev4world.ctmemo.CtmemoSearchCondition;
 import com.dev4world.ctmemo.dao.CtmemoDao;
-import com.dev4world.ctmemo.vo.Ctmemo;
 
 @Service
 public class CtmemoService {

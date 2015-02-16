@@ -2,8 +2,8 @@ package com.dev4world.ctmemo.dao;
 
 import java.util.List;
 
+import com.dev4world.ctmemo.Ctmemo;
 import com.dev4world.ctmemo.CtmemoSearchCondition;
-import com.dev4world.ctmemo.vo.Ctmemo;
 
 /**
  * 메모장 DAO

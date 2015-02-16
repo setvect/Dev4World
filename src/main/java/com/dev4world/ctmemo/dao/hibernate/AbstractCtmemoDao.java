@@ -8,9 +8,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.dev4world.ctmemo.Ctmemo;
 import com.dev4world.ctmemo.CtmemoSearchCondition;
 import com.dev4world.ctmemo.dao.CtmemoDao;
-import com.dev4world.ctmemo.vo.Ctmemo;
 
 /**
  * 하이버네이트을 이용한 메모장 DAO<br>

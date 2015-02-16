@@ -1,4 +1,4 @@
-package com.dev4world.ctmemo.vo;
+package com.dev4world.ctmemo;
 
 import java.util.Date;
 
