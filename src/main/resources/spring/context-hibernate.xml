@@ -6,6 +6,16 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- 환경설정 기본정보를 globals.properties 에서 참조하도록 propertyConfigurer 설정 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/config/config.properties</value>
+			</list>
+		</property>
+	</bean>
+
 	<!-- H2 DB Start -->
 	<bean id="org.h2.tools.Server" class="org.h2.tools.Server" factory-method="createTcpServer" init-method="start"
 		destroy-method="stop">
@@ -22,8 +32,8 @@
 		<property name="packagesToScan" value="org.baeldung.spring.persistence.model" />
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
-				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">${com.dev4world.ctmemo.db.hbm2ddl}</prop>
+				<prop key="hibernate.dialect">${com.dev4world.ctmemo.db.dialect}</prop>
 				<prop key="hibernate.cache.use_second_level_cache">false</prop>
 				<prop key="current_session_context_class">thread</prop>
 			</props>
@@ -36,10 +46,10 @@
 	</bean>
 
 	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource">
-		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:tcp://localhost:9092/~/dev4world/git/Dev4World/db/dev4word_db" />
-		<property name="username" value="dev4word_user" />
-		<property name="password" value="dev4word_pass" />
+		<property name="driverClassName" value="${com.dev4world.ctmemo.db.driver}" />
+		<property name="url" value="${com.dev4world.ctmemo.db.url}" />
+		<property name="username" value="${com.dev4world.ctmemo.db.user}" />
+		<property name="password" value="${com.dev4world.ctmemo.db.password}" />
 	</bean>
 
 	<!-- Transaction -->
