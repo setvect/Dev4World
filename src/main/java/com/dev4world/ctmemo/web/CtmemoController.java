@@ -1,5 +1,8 @@
 package com.dev4world.ctmemo.web;
 
+import java.beans.PropertyEditorSupport;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,9 +10,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.ServletRequest;
 
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -39,8 +44,16 @@ public class CtmemoController {
 		return result;
 	}
 
+	@RequestMapping("/saveMemo.do")
+	@ResponseBody
+	public String saveMemo(@ModelAttribute("ctmemo") CtmemoVo ctmemo) {
+		System.out.println(ctmemo);
+		return "true";
+	}
+
 	public static CtmemoVo getCtmemoTestData() {
 		CtmemoVo ctmemo = new CtmemoVo();
+		ctmemo.setCtmemoSeq(1);
 		ctmemo.setContent("내용2\n복슬이");
 		ctmemo.setBgCss("bg_1");
 		ctmemo.setFontCss("font_1");
@@ -58,6 +71,7 @@ public class CtmemoController {
 
 	public static CtmemoVo getCtmemoTestData2() {
 		CtmemoVo ctmemo = new CtmemoVo();
+		ctmemo.setCtmemoSeq(2);
 		ctmemo.setContent("내용1");
 		ctmemo.setBgCss("bg_1");
 		ctmemo.setFontCss("font_1");
@@ -71,5 +85,19 @@ public class CtmemoController {
 		ctmemo.setUptDate(date);
 
 		return ctmemo;
+	}
+
+	@InitBinder
+	public void binder(WebDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
+			public void setAsText(String value) {
+				try {
+					Date parsedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(value);
+					setValue(new Date(parsedDate.getTime()));
+				} catch (ParseException e) {
+					setValue(null);
+				}
+			}
+		});
 	}
 }

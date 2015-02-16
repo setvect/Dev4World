@@ -27,18 +27,45 @@
 	function loadAllMemo(){
 		$.get(CONTEXT_ROOT + "/listAllCtmemo.json", function(memoList) {
 			$.each(memoList, function() {
-				var item = $("<div id='draggable' class='memo ui-widget-content _item'><span class='_header'></span></div>");
-				item.append(this.content.replace(/\n/g, "<br/>"));
+				var item = $("<div id='draggable' class='memo ui-widget-content _item'><span class='_header'></span><div class='_content'></div></div>");
+				item.attr("data-ctmemo_seq",this.ctmemoSeq);
+				var regDate = new Date(this.regDate);
+				item.attr("data-reg_date",regDate.format("yyyy-MM-dd HH:mm:ss"));
+				item.find("._content").append(this.content.replace(/\n/g, "<br>"));
 				item.css("width", this.width)
 						.css("height", this.height)
 						.css("left", this.positionX)
 						.css("top", this.positionY)
 						.css("z-index", this.zIndex);
-				var regDate = new Date(this.regDate);
 				item.find("._header").append(regDate.format("yy.MM.dd HH.mm"));
 				$("#space").append(item);
 			});
-			$("._item" ).draggable();
+			$("._item" ).draggable({	stop: saveMemo})
+			$("._item" ).resizable({   
+				maxHeight: 300,
+			   maxWidth: 300,
+			   minHeight: 80,
+			   minWidth: 80,
+			   stop: saveMemo});
+		});
+	}
+	
+	// 추가 또는 변경된 메모장을 저장
+	function saveMemo(eventObj){
+		var element = $(eventObj.target);
+		var data = {};
+		data["ctmemoSeq"] = parseInt(element.attr("data-ctmemo_seq"));
+		data["content"] = element.find("._content").html().replace(/<br>/g, "\n");
+		data["zIndex"] = parseInt(element.css("z-index"));
+		data["width"] = parseInt(element.css("width").replace('px', ''));
+		data["height"] = parseInt(element.css("height").replace('px', ''));
+		data["positionX"] = parseInt(element.css("left").replace('px', ''));
+		data["positionY"] = parseInt(element.css("top").replace('px', ''));
+		data["regDate"] = element.attr("data-reg_date");
+		console.log(data);
+		
+		$.post(CONTEXT_ROOT + "/saveMemo.do", data, function( data ) {
+			console.log(data);
 		});
 	}
 	
