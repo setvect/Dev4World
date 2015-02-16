@@ -11,6 +11,7 @@
 		<config>src/main/resources/spring/context-hibernate.xml</config>
 		<config>src/main/resources/example/config_aop_annotation.xml</config>
 		<config>src/main/resources/example/config_aop.xml</config>
+		<config>src/main/resources/springmvc/context-servlet.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

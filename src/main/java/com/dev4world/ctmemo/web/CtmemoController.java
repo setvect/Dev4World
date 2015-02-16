@@ -16,6 +16,7 @@ public class CtmemoController {
 
 	@RequestMapping("/ctmemoPage.do")
 	public String mainPage(ServletRequest request, ModelMap model) {
-		return "ctmemoPage/main";
+		System.out.println(ctmemoService);
+		return "/ctmemoPage/main";
 	}
 }
