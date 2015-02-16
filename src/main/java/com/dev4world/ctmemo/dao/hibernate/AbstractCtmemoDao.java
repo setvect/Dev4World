@@ -8,7 +8,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.dev4world.ctmemo.Ctmemo;
+import com.dev4world.ctmemo.CtmemoVo;
 import com.dev4world.ctmemo.CtmemoSearchCondition;
 import com.dev4world.ctmemo.dao.CtmemoDao;
 
@@ -23,30 +23,30 @@ public abstract class AbstractCtmemoDao implements CtmemoDao {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public Ctmemo getCtmemo(int ctmemoId) {
+	public CtmemoVo getCtmemo(int ctmemoId) {
 		Session session = sessionFactory.getCurrentSession();
-		return (Ctmemo) session.get(Ctmemo.class, ctmemoId);
+		return (CtmemoVo) session.get(CtmemoVo.class, ctmemoId);
 	}
 
 	@Override
-	public List<Ctmemo> listCtmemo(CtmemoSearchCondition condition) {
+	public List<CtmemoVo> listCtmemo(CtmemoSearchCondition condition) {
 		Session session = sessionFactory.getCurrentSession();
-		String q = " from Ctmemo where deleteF = 'N'";
+		String q = " from CtmemoVo where deleteF = 'N'";
 		Query query = session.createQuery(q);
 
 		@SuppressWarnings("unchecked")
-		List<Ctmemo> resultList = query.list();
+		List<CtmemoVo> resultList = query.list();
 		return resultList;
 	}
 
 	@Override
-	public void insert(Ctmemo ctmemo) {
+	public void insert(CtmemoVo ctmemo) {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(ctmemo);
 	}
 
 	@Override
-	public void updateCtmemo(Ctmemo ctmemo) {
+	public void updateCtmemo(CtmemoVo ctmemo) {
 		Session session = sessionFactory.getCurrentSession();
 		session.update(ctmemo);
 	}

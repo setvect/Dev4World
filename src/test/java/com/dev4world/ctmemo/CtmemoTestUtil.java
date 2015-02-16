@@ -5,8 +5,8 @@ import java.util.Date;
 import com.setvect.common.date.DateUtil;
 
 public class CtmemoTestUtil {
-	public static Ctmemo getCtmemoTestData() {
-		Ctmemo ctmemo = new Ctmemo();
+	public static CtmemoVo getCtmemoTestData() {
+		CtmemoVo ctmemo = new CtmemoVo();
 		ctmemo.setContent("내용");
 		ctmemo.setBgCss("bg_1");
 		ctmemo.setFontCss("font_1");

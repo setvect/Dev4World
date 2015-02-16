@@ -8,7 +8,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.dev4world.ctmemo.Ctmemo;
+import com.dev4world.ctmemo.CtmemoVo;
 import com.dev4world.ctmemo.CtmemoSearchCondition;
 import com.dev4world.ctmemo.CtmemoTestBase;
 import com.dev4world.ctmemo.CtmemoTestUtil;
@@ -19,21 +19,21 @@ public class CtmemoServiceTestCase extends CtmemoTestBase {
 
 	@Test
 	public void test() {
-		Ctmemo ctmemo = CtmemoTestUtil.getCtmemoTestData();
+		CtmemoVo ctmemo = CtmemoTestUtil.getCtmemoTestData();
 		service.insert(ctmemo);
 
-		Ctmemo getmemo = service.getCtmemo(ctmemo.getCtmemoSeq());
+		CtmemoVo getmemo = service.getCtmemo(ctmemo.getCtmemoSeq());
 		Assert.assertThat(ctmemo, CoreMatchers.is(getmemo));
 
 		CtmemoSearchCondition condition = new CtmemoSearchCondition();
-		List<Ctmemo> list = service.listCtmemo(condition);
+		List<CtmemoVo> list = service.listCtmemo(condition);
 		Assert.assertThat(list.size(), CoreMatchers.is(1));
 
 		String content = "내사랑 복슬이";
 		ctmemo.setContent(content);
 		service.updateCtmemo(ctmemo);
 
-		Ctmemo result = service.getCtmemo(ctmemo.getCtmemoSeq());
+		CtmemoVo result = service.getCtmemo(ctmemo.getCtmemoSeq());
 		Assert.assertThat(content, CoreMatchers.is(result.getContent()));
 
 		service.removeCtmemo(ctmemo.getCtmemoSeq());

@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.dev4world.ctmemo.Ctmemo;
+import com.dev4world.ctmemo.CtmemoVo;
 import com.dev4world.ctmemo.CtmemoSearchCondition;
 import com.dev4world.ctmemo.dao.CtmemoDao;
 
@@ -15,24 +15,24 @@ public class CtmemoService {
 	@Inject
 	private CtmemoDao ctmemoDao;
 
-	public Ctmemo getCtmemo(int ctmemoId) {
+	public CtmemoVo getCtmemo(int ctmemoId) {
 		return ctmemoDao.getCtmemo(ctmemoId);
 	}
 
-	public List<Ctmemo> listCtmemo(CtmemoSearchCondition condition) {
+	public List<CtmemoVo> listCtmemo(CtmemoSearchCondition condition) {
 		return ctmemoDao.listCtmemo(condition);
 	}
 
-	public void insert(Ctmemo ctmemo) {
+	public void insert(CtmemoVo ctmemo) {
 		ctmemoDao.insert(ctmemo);
 	}
 
-	public void updateCtmemo(Ctmemo ctmemo) {
+	public void updateCtmemo(CtmemoVo ctmemo) {
 		ctmemoDao.updateCtmemo(ctmemo);
 	}
 
 	public void removeCtmemo(int ctmemoId) {
-		Ctmemo ctmemo = getCtmemo(ctmemoId);
+		CtmemoVo ctmemo = getCtmemo(ctmemoId);
 		ctmemo.setDeleteF(true);
 		updateCtmemo(ctmemo);
 	}

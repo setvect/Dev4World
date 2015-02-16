@@ -8,7 +8,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.dev4world.ctmemo.Ctmemo;
+import com.dev4world.ctmemo.CtmemoVo;
 import com.dev4world.ctmemo.CtmemoSearchCondition;
 import com.dev4world.ctmemo.CtmemoTestBase;
 import com.dev4world.ctmemo.CtmemoTestUtil;
@@ -22,22 +22,22 @@ public class CtmemoDaoTestCase extends CtmemoTestBase {
 	public void test() throws InterruptedException {
 		System.out.println(dao);
 
-		Ctmemo ctmemo = CtmemoTestUtil.getCtmemoTestData();
+		CtmemoVo ctmemo = CtmemoTestUtil.getCtmemoTestData();
 
 		dao.insert(ctmemo);
 
-		Ctmemo getmemo = dao.getCtmemo(ctmemo.getCtmemoSeq());
+		CtmemoVo getmemo = dao.getCtmemo(ctmemo.getCtmemoSeq());
 		Assert.assertThat(ctmemo, CoreMatchers.is(getmemo));
 
 		CtmemoSearchCondition condition = new CtmemoSearchCondition();
-		List<Ctmemo> list = dao.listCtmemo(condition);
+		List<CtmemoVo> list = dao.listCtmemo(condition);
 		Assert.assertThat(list.size(), CoreMatchers.is(1));
 
 		String content = "내사랑 복슬이";
 		ctmemo.setContent(content);
 		dao.updateCtmemo(ctmemo);
 
-		Ctmemo result = dao.getCtmemo(ctmemo.getCtmemoSeq());
+		CtmemoVo result = dao.getCtmemo(ctmemo.getCtmemoSeq());
 		Assert.assertThat(content, CoreMatchers.is(result.getContent()));
 
 		dao.deleteCtmemo(ctmemo.getCtmemoSeq());

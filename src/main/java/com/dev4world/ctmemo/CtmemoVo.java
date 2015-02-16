@@ -17,7 +17,7 @@ import org.hibernate.annotations.Type;
 @Entity
 @Table(name = "TBAA_CTMEMO")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Ctmemo {
+public class CtmemoVo {
 	/** 일련번호 */
 	@Id
 	@Column(name = "CTMEMO_SEQ")
@@ -276,7 +276,7 @@ public class Ctmemo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Ctmemo other = (Ctmemo) obj;
+		CtmemoVo other = (CtmemoVo) obj;
 		if (ctmemoSeq != other.ctmemoSeq)
 			return false;
 		return true;

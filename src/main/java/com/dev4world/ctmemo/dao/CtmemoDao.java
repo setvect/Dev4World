@@ -2,7 +2,7 @@ package com.dev4world.ctmemo.dao;
 
 import java.util.List;
 
-import com.dev4world.ctmemo.Ctmemo;
+import com.dev4world.ctmemo.CtmemoVo;
 import com.dev4world.ctmemo.CtmemoSearchCondition;
 
 /**
@@ -11,23 +11,23 @@ import com.dev4world.ctmemo.CtmemoSearchCondition;
  * @version $Id$
  */
 public interface CtmemoDao {
-	public Ctmemo getCtmemo(int ctmemoId);
+	public CtmemoVo getCtmemo(int ctmemoId);
 
 	/**
 	 * @param condition
 	 * @return
 	 */
-	public List<Ctmemo> listCtmemo(CtmemoSearchCondition condition);
+	public List<CtmemoVo> listCtmemo(CtmemoSearchCondition condition);
 
 	/**
 	 * @param board
 	 */
-	public void insert(Ctmemo ctmemo);
+	public void insert(CtmemoVo ctmemo);
 
 	/**
 	 * @param article
 	 */
-	public void updateCtmemo(Ctmemo ctmemo);
+	public void updateCtmemo(CtmemoVo ctmemo);
 
 	/**
 	 * @param articleSeq

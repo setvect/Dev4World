@@ -40,7 +40,7 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
-				<value>com.dev4world.ctmemo.vo.Ctmemo</value>
+				<value>com.dev4world.ctmemo.CtmemoVo</value>
 			</list>
 		</property>
 	</bean>
