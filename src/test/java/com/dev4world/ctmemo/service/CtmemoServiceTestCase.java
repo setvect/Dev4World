@@ -1,6 +1,5 @@
-package com.dev4world.ctmemo.dao;
+package com.dev4world.ctmemo.service;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -13,40 +12,33 @@ import com.dev4world.ctmemo.CtmemoSearchCondition;
 import com.dev4world.ctmemo.CtmemoTestBase;
 import com.dev4world.ctmemo.CtmemoTestUtil;
 import com.dev4world.ctmemo.vo.Ctmemo;
-import com.setvect.common.date.DateUtil;
 
-public class CtmemoDaoTestCase extends CtmemoTestBase {
-
+public class CtmemoServiceTestCase extends CtmemoTestBase {
 	@Inject
-	private CtmemoDao dao;
+	private CtmemoService service;
 
 	@Test
-	public void test() throws InterruptedException {
-		System.out.println(dao);
-
+	public void test() {
 		Ctmemo ctmemo = CtmemoTestUtil.getCtmemoTestData();
+		service.insert(ctmemo);
 
-		dao.insert(ctmemo);
-
-		Ctmemo getmemo = dao.getCtmemo(ctmemo.getCtmemoSeq());
+		Ctmemo getmemo = service.getCtmemo(ctmemo.getCtmemoSeq());
 		Assert.assertThat(ctmemo, CoreMatchers.is(getmemo));
 
 		CtmemoSearchCondition condition = new CtmemoSearchCondition();
-		List<Ctmemo> list = dao.listCtmemo(condition);
+		List<Ctmemo> list = service.listCtmemo(condition);
 		Assert.assertThat(list.size(), CoreMatchers.is(1));
 
 		String content = "내사랑 복슬이";
 		ctmemo.setContent(content);
-		dao.updateCtmemo(ctmemo);
+		service.updateCtmemo(ctmemo);
 
-		Ctmemo result = dao.getCtmemo(ctmemo.getCtmemoSeq());
+		Ctmemo result = service.getCtmemo(ctmemo.getCtmemoSeq());
 		Assert.assertThat(content, CoreMatchers.is(result.getContent()));
 
-		dao.deleteCtmemo(ctmemo.getCtmemoSeq());
-		list = dao.listCtmemo(condition);
+		service.removeCtmemo(ctmemo.getCtmemoSeq());
+		list = service.listCtmemo(condition);
 		Assert.assertThat(list.size(), CoreMatchers.is(0));
 
 	}
-
-	
 }
