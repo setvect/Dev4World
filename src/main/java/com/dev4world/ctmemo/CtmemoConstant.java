@@ -25,6 +25,6 @@ public class CtmemoConstant {
 		public static final String FONTSTYLE_3 = PREFIX + "fontstyle_3";
 
 		public static final List<String> BGSTYLE_LIST = Arrays.asList(BGSTYLE_1, BGSTYLE_2, BGSTYLE_3);
-		public static final List<String> FONTSTYLE_LIST = Arrays.asList(BGSTYLE_1, BGSTYLE_2, BGSTYLE_3);
+		public static final List<String> FONTSTYLE_LIST = Arrays.asList(FONTSTYLE_1, FONTSTYLE_2, FONTSTYLE_3);
 	}
 }
