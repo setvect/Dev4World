@@ -97,6 +97,8 @@
 	var CONTEXT_ROOT = "<%=request.getContextPath()%>";
 	// 메모장에 적용될 스타일
 	var STYLE_LIST;
+	// 메모장에 적용 스타일 prifix. 필터링 조건으로 사용
+	var STYLE_PREFIX = "<%=CtmemoConstant.Style.PREFIX%>";
 	
 	// 삭제된 메모 아이디 저장. 큐 형태로 활용
 	var deleteQueue = [];
