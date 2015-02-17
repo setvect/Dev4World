@@ -28,7 +28,6 @@
 .memo .itemContent span{
 	color: red;
 }
-
 .memo textarea{
 	font-size: 10px;
 }
@@ -97,7 +96,6 @@
 	var CONTEXT_ROOT = "<%=request.getContextPath()%>";
 	// 메모장에 적용될 스타일
 	var STYLE_LIST;
-	
 	// 삭제된 메모 아이디 저장. 큐 형태로 활용
 	var deleteQueue = [];
 	
