@@ -20,10 +20,18 @@
 	font-size: 10px;
 }
 
+.memo textarea{
+	font-size: 10px;
+}
+
 .memo span input {
 	font-size: 10px;
 	padding: 0;
 	float: right;
+}
+.tool input{
+	font-size: 10px;
+	padding: 0;
 }
 </style>
 
@@ -41,10 +49,19 @@
 			undeleteMemo();			
 		});
 		
+		$("._search").keyup(function(){
+			search($(this).val());
+		});
+		
 		$("#space").on("click", "._delete", function(){
 			var eventObj = $(this).parents("._item");
 			deleteMemo(eventObj);
 		});
+		
+		$("#space").on("click", "._edit", function(){
+			var eventObj = $(this).parents("._item");
+			editMemo(eventObj);
+		});		
 	});
 
 	// 새로운 메모를 생성한다.
@@ -72,7 +89,7 @@
 		item.attr("data-font_css",memo.fontCss);
 		var regDate = new Date(memo.regDate);
 		item.attr("data-reg_date",regDate.format("yyyy-MM-dd HH:mm:ss"));
-		item.find("._content").append(memo.content.replace(/\n/g, "<br>"));
+		item.find("._content").append(newline2br(memo.content));
 		item.css("width", memo.width)
 				.css("height", memo.height)
 				.css("left", memo.positionX)
@@ -87,8 +104,8 @@
 		item.resizable({   
 			maxHeight: 300,
 		   maxWidth: 300,
-		   minHeight: 80,
-		   minWidth: 80,
+		   minHeight: 100,
+		   minWidth: 100,
 		   stop: saveMemo});
 	}
 	
@@ -97,7 +114,7 @@
 		var element = $(eventObj.target);
 		var data = {};
 		data["ctmemoSeq"] = parseInt(element.attr("data-ctmemo_seq"));
-		data["content"] = element.find("._content").html().replace(/<br>/g, "\n");
+		data["content"] = br2newline(element.find("._content").html());
 		data["zIndex"] = parseInt(element.css("z-index"));
 		data["width"] = parseInt(element.css("width").replace('px', ''));
 		data["height"] = parseInt(element.css("height").replace('px', ''));
@@ -114,6 +131,18 @@
 		});
 	}
 	
+	// 메모 수정
+	function editMemo(editElement){
+		var content = br2newline(editElement.find("._content").html());
+		var width = editElement.find("._content").width() - 6;
+		// .content 높이를 가져오지 못함
+		var height = editElement.height() - 30;
+		
+		editElement.find("._content").html("");
+		editElement.find("._content").append("<textarea>"+content+"</textarea>")
+		editElement.find("textarea").css("width", width).css("height", height);
+		console.log(content);
+	}
 	
 	// 메모 삭제
 	function deleteMemo(deleteElement){
@@ -138,13 +167,29 @@
 			undeleteDisplay();
 		});	
 	}
+	
+	// 메모 검색
+	function search(word){
+		console.log("search: " + word);
+	}
+	
+	// br 테그를 newline(\n)
+	function br2newline(str){
+		return str.replace(/<br>/g, "\n")
+	}
+	
+	//  newline(\n)을 br 테그로
+	function newline2br(str){
+		return str.replace(/\n/g, "<br>")
+	}
 </script>
 </head>
 <body>
 	<div id="space">
 		<div class="tool">
-			<input type="button" value="+" class="_new" /> 
-			<input type="button" value="undel" class="_undelete" style="display: none;"/>
+			<input type="text" value="" class="_search"/>
+			<input type="button" value="New" class="_new" /> 
+			<input type="button" value="Undel" class="_undelete" style="display: none;"/>
 		</div>
 	</div>
 </body>
