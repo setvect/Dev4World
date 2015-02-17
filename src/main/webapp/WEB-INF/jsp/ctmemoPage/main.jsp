@@ -66,6 +66,11 @@
 		
 		$.post(CONTEXT_ROOT + "/saveMemo.do", data, function( data ) {
 			console.log(data);
+			$("._item" ).draggable().resizable({   
+				maxHeight: 300,
+			   maxWidth: 300,
+			   minHeight: 80,
+			   minWidth: 80});
 		});
 	}
 	
