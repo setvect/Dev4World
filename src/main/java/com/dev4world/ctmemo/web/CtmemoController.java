@@ -3,7 +3,6 @@ package com.dev4world.ctmemo.web;
 import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -61,11 +60,18 @@ public class CtmemoController {
 		return ctmemoService.newMemo();
 	}
 
+	/**
+	 * @param ctmemo
+	 * @return 변경한 메모의 z-index 값
+	 */
 	@RequestMapping("/saveMemo.do")
 	@ResponseBody
-	public String saveMemo(@ModelAttribute("ctmemo") CtmemoVo ctmemo) {
+	public int saveMemo(@ModelAttribute("ctmemo") CtmemoVo ctmemo) {
+		ctmemo.setUptDate(new Date());
+		ctmemo.setzIndex(ctmemoService.getMaxZindex());
 		System.out.println(ctmemo);
-		return "true";
+		ctmemoService.updateCtmemo(ctmemo);
+		return ctmemo.getzIndex();
 	}
 
 	@RequestMapping("/deleteMemo.do")
