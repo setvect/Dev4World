@@ -16,15 +16,25 @@
 	position: absolute;
 }
 
-
-.memo span {
+.memo .toolbar {
 	font-size: 10px;
+}
+
+.memo .itemContent{
+	clear: both;
+}
+
+.memo .itemContent span{
+	color: red;
 }
 
 .memo textarea{
 	font-size: 10px;
 }
 
+.memo span .styleBtn {
+	background-color: orange;
+}
 .memo span input {
 	font-size: 10px;
 	padding: 0;
@@ -33,6 +43,11 @@
 .tool input{
 	font-size: 10px;
 	padding: 0;
+}
+
+/* 검색 안된 메모 스타일 */
+.not_search{
+	opacity: .3;
 }
 </style>
 
@@ -53,7 +68,8 @@
 		$("._search").keyup(function(){
 			search($(this).val());
 		});
-		
+
+		// 각 메모장 상단 버튼 이벤트
 		$("#space").on("click", "._delete", function(){
 			var eventObj = $(this).parents("._item");
 			deleteMemo(eventObj);
@@ -68,14 +84,21 @@
 			var eventObj = $(this).parents("._item");
 			editMemoDone(eventObj);
 		});		
+		
+		$("#space").on("click", "._style", function(){
+			var eventObj = $(this).parents("._item");
+			choiceStyle(eventObj);
+		});		
+		
 	});
 
 	// 새로운 메모를 생성한다.
 	function newMemo(){
 		$.get(CONTEXT_ROOT + "/newMemo.json", function(memo) {
-			console.log("##$$$$");
-			console.log(memo);
 			displayMemo(memo);
+			var newElement = $("._item[data-ctmemo_seq='"+memo.ctmemoSeq+"']")
+			console.log(newElement);
+			editMemo(newElement);
 		});
 	}
 
@@ -89,7 +112,7 @@
 	}
 	
 	function displayMemo(memo){
-		var item = $("<div id='draggable' class='memo ui-widget-content _item'><span class='_header'></span><div class='_content'></div></div>");
+		var item = $("<div id='draggable' class='memo ui-widget-content _item'><span class='toolbar _header'></span><div class='itemContent _content'></div></div>");
 		item.attr("data-ctmemo_seq",memo.ctmemoSeq);
 		item.attr("data-bg_css",memo.bgCss);
 		item.attr("data-font_css",memo.fontCss);
@@ -105,9 +128,9 @@
 		item.find("._header").append("<input type='button' value='D' class='_delete'/>");
 		item.find("._header").append("<input type='button' value='E' class='_edit'/>");
 		item.find("._header").append("<input type='button' value='Done' class='_done' />");
+		item.find("._header").append("<input type='button' value='S' class='_style styleBtn'/>");
 		item.find("._header ._done").hide();
-		$("#space").append(item);
-		
+		$("#space").append(item);		
 		item.draggable({stop: function(eventObj){
 			var element = $(eventObj.target);
 			saveMemo(element);
@@ -116,7 +139,7 @@
 			maxHeight: 300,
 		   maxWidth: 300,
 		   minHeight: 100,
-		   minWidth: 100,
+		   minWidth: 110,
 		   stop: function(eventObj){
 				var element = $(eventObj.target);
 				saveMemo(element);
@@ -128,7 +151,7 @@
 	function saveMemo(element){
 		var data = {};
 		data["ctmemoSeq"] = parseInt(element.attr("data-ctmemo_seq"));
-		data["content"] = br2newline(element.find("._content").html());
+		data["content"] = removeTags(br2newline(element.find("._content").html()));
 		data["zIndex"] = parseInt(element.css("z-index"));
 		data["width"] = parseInt(element.css("width").replace('px', ''));
 		data["height"] = parseInt(element.css("height").replace('px', ''));
@@ -137,10 +160,8 @@
 		data["bgCss"] = element.attr("data-bg_css");
 		data["fontCss"] = element.attr("data-font_css");
 		data["regDate"] = element.attr("data-reg_date");
-		console.log(data);
 		
 		$.post(CONTEXT_ROOT + "/saveMemo.do", data, function( zIndex ) {
-			console.log(data);
 			element.css("z-index", zIndex)
 		});
 	}
@@ -155,6 +176,7 @@
 		editElement.find("._header ._done").show();
 		
 		var content = br2newline(editElement.find("._content").html());
+		content = removeTags(content);
 		var width = editElement.find("._content").width() - 6;
 		// .content 높이를 가져오지 못함
 		var height = editElement.height() - 30;
@@ -162,7 +184,6 @@
 		editElement.find("._content").html("");
 		editElement.find("._content").append("<textarea>"+content+"</textarea>")
 		editElement.find("textarea").css("width", width).css("height", height);
-		console.log(content);
 	}
 	
 	// 메모 수정 사항 서버 반영
@@ -188,6 +209,11 @@
 		});		
 	}
 	
+	// 스타일 선택
+	function choiceStyle(choiceElement){
+		console.log("style" +choiceElement);
+	}
+	
 	// 삭제 취소 버튼 활성화 여부 
 	function undeleteDisplay(){
 		$("._undelete").css("display", deleteQueue.length == 0 ? "none" : "inline-block");
@@ -201,10 +227,27 @@
 			undeleteDisplay();
 		});	
 	}
+
 	
 	// 메모 검색
 	function search(word){
-		console.log("search: " + word);
+		$("#space ._item").each(function(){
+			var content = br2newline($(this).find("._content").html());
+			content = removeTags(content);
+			console.log(word.length);
+			if(word.length == 0){
+				$(this).removeClass("not_search");
+			}
+			else if(content.indexOf(word) == -1){
+				$(this).addClass("not_search");
+			}
+			else{
+				$(this).removeClass("not_search");
+				content = replaceAll(content, word, "<span>" + word + "</span>");
+			}
+			console.log("#### " +content);
+			$(this).find("._content").html(newline2br(content));
+		});
 	}
 	
 	// br 테그를 newline(\n)
@@ -215,6 +258,16 @@
 	//  newline(\n)을 br 테그로
 	function newline2br(str){
 		return str.replace(/\n/g, "<br>")
+	}
+	
+	// Html 테크 제거
+	function removeTags (str) {
+		return str.replace(/<(?:.|\n)*?>/gm, '');
+	}
+	
+	// 매칭 문자열 교체
+	function replaceAll(str, find, replace) {
+		return str.replace(new RegExp(find, 'g'), replace);
 	}
 </script>
 </head>
