@@ -16,6 +16,7 @@
 	position: absolute;
 }
 
+
 .memo span {
 	font-size: 10px;
 }
