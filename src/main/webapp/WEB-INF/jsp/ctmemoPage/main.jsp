@@ -61,6 +61,11 @@
 		$("#space").on("click", "._edit", function(){
 			var eventObj = $(this).parents("._item");
 			editMemo(eventObj);
+		});
+		
+		$("#space").on("click", "._done", function(){
+			var eventObj = $(this).parents("._item");
+			editMemoDone(eventObj);
 		});		
 	});
 
@@ -98,20 +103,28 @@
 		item.find("._header").append(regDate.format("yy.MM.dd"));
 		item.find("._header").append("<input type='button' value='D' class='_delete'/>");
 		item.find("._header").append("<input type='button' value='E' class='_edit'/>");
+		item.find("._header").append("<input type='button' value='Done' class='_done' />");
+		item.find("._header ._done").hide();
 		$("#space").append(item);
 		
-		item.draggable({	stop: saveMemo})
+		item.draggable({stop: function(eventObj){
+			var element = $(eventObj.target);
+			saveMemo(element);
+		}});
 		item.resizable({   
 			maxHeight: 300,
 		   maxWidth: 300,
 		   minHeight: 100,
 		   minWidth: 100,
-		   stop: saveMemo});
+		   stop: function(eventObj){
+				var element = $(eventObj.target);
+				saveMemo(element);
+		  	}
+		});
 	}
 	
 	// 추가 또는 변경된 메모장을 저장
-	function saveMemo(eventObj){
-		var element = $(eventObj.target);
+	function saveMemo(element){
 		var data = {};
 		data["ctmemoSeq"] = parseInt(element.attr("data-ctmemo_seq"));
 		data["content"] = br2newline(element.find("._content").html());
@@ -133,6 +146,13 @@
 	
 	// 메모 수정
 	function editMemo(editElement){
+		// 편집 상태에선 드레그, 사이즈 조정 금지
+		editElement.draggable("disable")
+		editElement.resizable("disable")
+		
+		editElement.find("._header ._edit").hide();
+		editElement.find("._header ._done").show();
+		
 		var content = br2newline(editElement.find("._content").html());
 		var width = editElement.find("._content").width() - 6;
 		// .content 높이를 가져오지 못함
@@ -142,6 +162,19 @@
 		editElement.find("._content").append("<textarea>"+content+"</textarea>")
 		editElement.find("textarea").css("width", width).css("height", height);
 		console.log(content);
+	}
+	
+	// 메모 수정 사항 서버 반영
+	function editMemoDone(editElement){
+		editElement.draggable("enable")
+		editElement.resizable("enable")
+
+		editElement.find("._header ._edit").show();
+		editElement.find("._header ._done").hide();
+		var content = newline2br(editElement.find("._content textarea").val());
+		editElement.find("._content").html("");
+		editElement.find("._content").append(content)
+		saveMemo(editElement);
 	}
 	
 	// 메모 삭제
