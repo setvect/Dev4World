@@ -20,6 +20,7 @@
 	font-size: 10px;
 }
 
+
 .memo span input {
 	font-size: 10px;
 	padding: 0;
