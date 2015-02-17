@@ -4,7 +4,9 @@ import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.ServletRequest;
@@ -32,7 +34,6 @@ public class CtmemoController {
 
 	@RequestMapping("/ctmemoPage.do")
 	public String ctmemoPage(ServletRequest request, ModelMap model) {
-		System.out.println(ctmemoService);
 		return "/ctmemoPage/main";
 	}
 
@@ -69,7 +70,6 @@ public class CtmemoController {
 	public int saveMemo(@ModelAttribute("ctmemo") CtmemoVo ctmemo) {
 		ctmemo.setUptDate(new Date());
 		ctmemo.setzIndex(ctmemoService.getMaxZindex());
-		System.out.println(ctmemo);
 		ctmemoService.updateCtmemo(ctmemo);
 		return ctmemo.getzIndex();
 	}
@@ -96,12 +96,27 @@ public class CtmemoController {
 		return memo;
 	}
 
+	/**
+	 * 사용하는 스타일
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/listUsagestyle.json")
+	@ResponseBody
+	public Map<String, List<String>> listUsagestyle() {
+		Map<String, List<String>> m = new HashMap<String, List<String>>();
+		m.put("font", CtmemoConstant.Style.FONTSTYLE_LIST);
+		m.put("bg", CtmemoConstant.Style.BGSTYLE_LIST);
+		return m;
+	}
+
 	public CtmemoVo getCtmemoTestData() {
 		CtmemoVo ctmemo = new CtmemoVo();
 		ctmemo.setCtmemoSeq(1);
 		ctmemo.setContent("내용2\n복슬이");
-		ctmemo.setBgCss("bg_1");
-		ctmemo.setFontCss("font_1");
+		ctmemo.setBgCss(CtmemoConstant.Style.BGSTYLE_1);
+		ctmemo.setFontCss(CtmemoConstant.Style.FONTSTYLE_1);
 		ctmemo.setWidth(130);
 		ctmemo.setHeight(130);
 		ctmemo.setPositionX(220);
@@ -120,8 +135,8 @@ public class CtmemoController {
 		ctmemo.setContent("내용1");
 		ctmemo.setBgCss(CtmemoConstant.Style.BGSTYLE_2);
 		ctmemo.setFontCss(CtmemoConstant.Style.FONTSTYLE_2);
-		ctmemo.setWidth(100);
-		ctmemo.setHeight(100);
+		ctmemo.setWidth(150);
+		ctmemo.setHeight(150);
 		ctmemo.setPositionX(200);
 		ctmemo.setPositionY(100);
 		ctmemo.setzIndex(1);

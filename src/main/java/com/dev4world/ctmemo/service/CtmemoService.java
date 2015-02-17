@@ -49,8 +49,8 @@ public class CtmemoService {
 		ctmemo.setContent(" ");
 		ctmemo.setBgCss(CtmemoConstant.Style.BGSTYLE_1);
 		ctmemo.setFontCss(CtmemoConstant.Style.FONTSTYLE_1);
-		ctmemo.setWidth(100);
-		ctmemo.setHeight(100);
+		ctmemo.setWidth(150);
+		ctmemo.setHeight(150);
 		ctmemo.setPositionX(1);
 		ctmemo.setPositionY(1);
 		ctmemo.setzIndex(getMaxZindex());
