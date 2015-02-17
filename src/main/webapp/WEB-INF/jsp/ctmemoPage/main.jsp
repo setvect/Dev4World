@@ -15,79 +15,39 @@
 	padding: 0.5em;
 	position: absolute;
 }
-
-.memo span {
-	font-size: 10px;
-}
-
-.memo span input {
-	font-size: 10px;
-	padding: 0;
-	float: right;
-}
 </style>
 
 <script type="text/javascript">
 	var CONTEXT_ROOT = "<%=request.getContextPath()%>";
-	var deleteQueue = [];
-	
 	$(function() {
 		loadAllMemo();
-		$("._new").on("click", function(){
-			newMemo();			
-		});
-		
-		$("._undelete").on("click", function(){
-			undeleteMemo();			
-		});
-		
-		$("#space").on("click", "._delete", function(){
-			var eventObj = $(this).parents("._item");
-			deleteMemo(eventObj);
-		});
 	});
-
-	// 새로운 메모를 생성한다.
-	function newMemo(){
-		$.get(CONTEXT_ROOT + "/newMemo.json", function(memo) {
-			console.log("##$$$$");
-			console.log(memo);
-			displayMemo(memo);
-		});
-	}
 
 	// 전체 메모장을 불러온다.
 	function loadAllMemo(){
 		$.get(CONTEXT_ROOT + "/listAllCtmemo.json", function(memoList) {
 			$.each(memoList, function() {
-				displayMemo(this);
+				var item = $("<div id='draggable' class='memo ui-widget-content _item'><span class='_header'></span><div class='_content'></div></div>");
+				item.attr("data-ctmemo_seq",this.ctmemoSeq);
+				var regDate = new Date(this.regDate);
+				item.attr("data-reg_date",regDate.format("yyyy-MM-dd HH:mm:ss"));
+				item.find("._content").append(this.content.replace(/\n/g, "<br>"));
+				item.css("width", this.width)
+						.css("height", this.height)
+						.css("left", this.positionX)
+						.css("top", this.positionY)
+						.css("z-index", this.zIndex);
+				item.find("._header").append(regDate.format("yy.MM.dd HH.mm"));
+				$("#space").append(item);
 			});
+			$("._item" ).draggable({	stop: saveMemo})
+			$("._item" ).resizable({   
+				maxHeight: 300,
+			   maxWidth: 300,
+			   minHeight: 80,
+			   minWidth: 80,
+			   stop: saveMemo});
 		});
-	}
-	
-	function displayMemo(memo){
-		var item = $("<div id='draggable' class='memo ui-widget-content _item'><span class='_header'></span><div class='_content'></div></div>");
-		item.attr("data-ctmemo_seq",memo.ctmemoSeq);
-		var regDate = new Date(memo.regDate);
-		item.attr("data-reg_date",regDate.format("yyyy-MM-dd HH:mm:ss"));
-		item.find("._content").append(memo.content.replace(/\n/g, "<br>"));
-		item.css("width", memo.width)
-				.css("height", memo.height)
-				.css("left", memo.positionX)
-				.css("top", memo.positionY)
-				.css("z-index", memo.zIndex);
-		item.find("._header").append(regDate.format("yy.MM.dd"));
-		item.find("._header").append("<input type='button' value='D' class='_delete'/>");
-		item.find("._header").append("<input type='button' value='E' class='_edit'/>");
-		$("#space").append(item);
-		
-		item.draggable({	stop: saveMemo})
-		item.resizable({   
-			maxHeight: 300,
-		   maxWidth: 300,
-		   minHeight: 80,
-		   minWidth: 80,
-		   stop: saveMemo});
 	}
 	
 	// 추가 또는 변경된 메모장을 저장
@@ -114,37 +74,10 @@
 		});
 	}
 	
-	// 메모 삭제
-	function deleteMemo(deleteElement){
-		var seq = deleteElement.attr("data-ctmemo_seq");
-		$.post(CONTEXT_ROOT + "/deleteMemo.do", {ctmemoSeq: seq}, function( data ) {
-			deleteQueue.push(seq);
-			deleteElement.remove();
-			undeleteDisplay();
-		});		
-	}
-	
-	// 삭제 취소 버튼 활성화 여부 
-	function undeleteDisplay(){
-		$("._undelete").css("display", deleteQueue.length == 0 ? "none" : "inline-block");
-	}
-	
-	// 마지막 삭제 취소
-	function undeleteMemo(){
-		var seq = deleteQueue.pop();
-		$.post(CONTEXT_ROOT + "/undelete.json", {ctmemoSeq: seq}, function( memo ) {
-			displayMemo(memo);
-			undeleteDisplay();
-		});	
-	}
 </script>
 </head>
 <body>
 	<div id="space">
-		<div class="tool">
-			<input type="button" value="+" class="_new" /> 
-			<input type="button" value="undel" class="_undelete" style="display: none;"/>
-		</div>
 	</div>
 </body>
 </html>
