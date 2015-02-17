@@ -29,6 +29,14 @@ public abstract class AbstractCtmemoDao implements CtmemoDao {
 	}
 
 	@Override
+	public int getMaxZindex() {
+		Session session = sessionFactory.getCurrentSession();
+		String q = " select COALESCE(max(zIndex) + 1, 1) from CtmemoVo where deleteF = 'N'";
+		Query query = session.createQuery(q);
+		return (int) query.uniqueResult();
+	}
+
+	@Override
 	public List<CtmemoVo> listCtmemo(CtmemoSearchCondition condition) {
 		Session session = sessionFactory.getCurrentSession();
 		String q = " from CtmemoVo where deleteF = 'N'";

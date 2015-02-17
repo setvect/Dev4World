@@ -14,6 +14,13 @@ public interface CtmemoDao {
 	public CtmemoVo getCtmemo(int ctmemoId);
 
 	/**
+	 * z-index 최대 값
+	 * 
+	 * @return
+	 */
+	public int getMaxZindex();
+
+	/**
 	 * @param condition
 	 * @return
 	 */
@@ -33,4 +40,5 @@ public interface CtmemoDao {
 	 * @param articleSeq
 	 */
 	public void deleteCtmemo(int ctmemoId);
+
 }
