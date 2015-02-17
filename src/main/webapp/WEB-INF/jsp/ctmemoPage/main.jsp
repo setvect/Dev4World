@@ -114,6 +114,7 @@
 		});
 	}
 	
+	
 	// 메모 삭제
 	function deleteMemo(deleteElement){
 		var seq = deleteElement.attr("data-ctmemo_seq");
