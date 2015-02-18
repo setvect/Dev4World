@@ -117,10 +117,10 @@ public class CtmemoController {
 		ctmemo.setContent("내용2\n복슬이");
 		ctmemo.setBgCss(CtmemoConstant.Style.BGSTYLE_1);
 		ctmemo.setFontCss(CtmemoConstant.Style.FONTSTYLE_1);
-		ctmemo.setWidth(130);
+		ctmemo.setWidth(160);
 		ctmemo.setHeight(130);
 		ctmemo.setPositionX(220);
-		ctmemo.setPositionY(120);
+		ctmemo.setPositionY(220);
 		ctmemo.setzIndex(ctmemoService.getMaxZindex());
 		Date date = DateUtil.getDateTime("2015-02-13 11:22:11");
 		ctmemo.setRegDate(date);
@@ -135,9 +135,9 @@ public class CtmemoController {
 		ctmemo.setContent("내용1");
 		ctmemo.setBgCss(CtmemoConstant.Style.BGSTYLE_2);
 		ctmemo.setFontCss(CtmemoConstant.Style.FONTSTYLE_2);
-		ctmemo.setWidth(150);
+		ctmemo.setWidth(160);
 		ctmemo.setHeight(150);
-		ctmemo.setPositionX(200);
+		ctmemo.setPositionX(100);
 		ctmemo.setPositionY(100);
 		ctmemo.setzIndex(1);
 		Date date = DateUtil.getDate("2015-02-14");
