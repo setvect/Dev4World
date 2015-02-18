@@ -1,4 +1,3 @@
-<%@page import="com.dev4world.ctmemo.CtmemoConstant"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -13,13 +12,14 @@
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/main.css"/>" />
 <style type="text/css">
 .memo {
-	padding: 0.2em;
+	padding: 5px;
 	position: absolute;
 }
 
-.memo .toolbar {
-	font-size: 10px;
+.memo {
+	font-size: 13px;
 }
+
 
 .memo .itemContent{
 	clear: both;
@@ -27,25 +27,21 @@
 
 .memo .itemContent span{
 	color: red;
-}
-.memo textarea{
-	font-size: 10px;
+	background-color: yellow;
 }
 
 .memo span .styleBtn {
 	background-color: orange;
 }
 .memo span input {
-	font-size: 10px;
-	padding: 0;
+	padding: 2;
 	float: right;
 }
 .tool input{
-	font-size: 10px;
 	padding: 0;
 }
 .palette{
-	width: 50px;
+	width: 60px;
 	position: absolute;
 	display: none;
 	z-index: 99999999999;
@@ -54,7 +50,7 @@
 	float: left;
 }
 .palette div{
-	padding: 2px;
+	padding: 4px;
 	width: 10px;
 	height: 10px;
 	cursor: pointer;
@@ -70,22 +66,28 @@
 
 /* 메모장 적용 스타일 */
 ._ct_bgstyle_1{
+	border: 1px solid #a9abb0;
 	background-color: teal;
 }
 ._ct_bgstyle_2{
+	border: 1px solid #a9abb0;
 	background-color: fuchsia;
 }
 ._ct_bgstyle_3{
+	border: 1px solid #a9abb0;
 	background-color: activeborder;
 }
 
 ._ct_fontstyle_1{
+	border: 1px solid #a9abb0;
 	color: maroon;
 }
 ._ct_fontstyle_2{
+	border: 1px solid #a9abb0;
 	color: white;
 }
 ._ct_fontstyle_3{
+	border: 1px solid #a9abb0;
 	color: blue;
 }
 </style>
@@ -215,8 +217,8 @@
 		item.resizable({   
 			maxHeight: 300,
 		   maxWidth: 300,
-		   minHeight: 100,
-		   minWidth: 110,
+		   minHeight: 130,
+		   minWidth: 160,
 		   stop: function(eventObj){
 				var element = $(eventObj.target);
 				saveMemo(element);
