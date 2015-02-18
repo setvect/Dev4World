@@ -33,8 +33,13 @@ public class CtmemoController {
 	private static boolean init = false;
 
 	@RequestMapping("/ctmemoPage.do")
-	public String ctmemoPage(ServletRequest request, ModelMap model) {
+	public String ctmemoPage() {
 		return "/ctmemoPage/main";
+	}
+
+	@RequestMapping("/ctmemoMobile.do")
+	public String ctmemoMobile() {
+		return "/ctmemoPage/mobile";
 	}
 
 	@RequestMapping("/listAllCtmemo.json")
