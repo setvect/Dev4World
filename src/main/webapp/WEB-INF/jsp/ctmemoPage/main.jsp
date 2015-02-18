@@ -80,7 +80,7 @@
 
 ._ct_fontstyle_1{
 	border: 1px solid #a9abb0;
-	color: yellow;
+	color: purple;
 }
 ._ct_fontstyle_2{
 	border: 1px solid #a9abb0;
