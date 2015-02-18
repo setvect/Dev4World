@@ -10,88 +10,6 @@
 <script type="text/javascript" src="<c:url value="/js/util.js"/>"></script>
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/jquery-ui.css"/>" />
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/main.css"/>" />
-<style type="text/css">
-.memo {
-	padding: 5px;
-	position: absolute;
-}
-
-.memo {
-	font-size: 13px;
-}
-
-.memo .itemContent{
-	clear: both;
-}
-
-.memo .itemContent span{
-	color: red;
-	background-color: yellow;
-}
-
-.memo span .styleBtn {
-	background-color: orange;
-}
-.memo span input {
-	padding: 0 1px;
-	float: right;
-	margin-left: 2px;
-}
-.tool input{
-	padding: 0;
-}
-.palette{
-	width: 60px;
-	position: absolute;
-	display: none;
-	z-index: 99999999999;
-}
-.palette li{
-	float: left;
-}
-.palette div{
-	padding: 4px;
-	width: 10px;
-	height: 10px;
-	cursor: pointer;
-}
-.palette .text_area div	{
-	background-color: #ee98de;
-}
-
-/* 검색 안된 메모 스타일 */
-.not_search{
-	opacity: .3;
-}
-
-/* 메모장 적용 스타일 */
-._ct_bgstyle_1{
-	border: 1px solid #a9abb0;
-	background-color: teal;
-}
-._ct_bgstyle_2{
-	border: 1px solid #a9abb0;
-	background-color: fuchsia;
-}
-._ct_bgstyle_3{
-	border: 1px solid #a9abb0;
-	background-color: activeborder;
-}
-
-._ct_fontstyle_1{
-	border: 1px solid #a9abb0;
-	color: purple;
-}
-._ct_fontstyle_2{
-	border: 1px solid #a9abb0;
-	color: black;
-}
-._ct_fontstyle_3{
-	border: 1px solid #a9abb0;
-	color: blue;
-}
-</style>
-
 <script type="text/javascript">
 	// === 전역 변수
 	// 모든 링크 시작값
@@ -144,12 +62,21 @@
 		$.get(CONTEXT_ROOT + "/listUsagestyle.json", function(styleList) {
 			STYLE_LIST = styleList;	
 			loadPalette(styleList);
-		});		
+		});
+		
+		// 검색 텍스트 검색 취소 버튼.
+		$(document).on('input', '.clearable', function() {
+	    $(this)[tog(this.value)]('x');
+		}).on('mousemove', '.x', function(e) {
+		    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');   
+		}).on('click', '.onX', function(){
+		    $(this).removeClass('x onX').val('').change();
+		    search("");
+		});
 	});
 
 	// 팔레트 적용
 	function loadPalette(styleList){
-		
 		console.log(styleList);
 		
 		var bg = $("._style_palette ._bg");
@@ -371,12 +298,17 @@
 	function replaceAll(str, find, replace) {
 		return str.replace(new RegExp(find, 'g'), replace);
 	}
+	
+	// 검색 취소 버튼 스타일 
+	function tog(v){
+		return v ? 'addClass':'removeClass';
+	} 	
 </script>
 </head>
 <body>
 	<div id="space">
 		<div class="tool">
-			<input type="text" value="" class="_search"/>
+			<input type="text" value="" class="clearable _search"/>
 			<input type="button" value="New" class="_new" /> 
 			<input type="button" value="Undel" class="_undelete" style="display: none;"/>
 		</div>
