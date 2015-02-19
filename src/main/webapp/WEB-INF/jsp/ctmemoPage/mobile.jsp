@@ -19,9 +19,10 @@
 <script>
 	function Ctmemo(rootPath){
 		// 모든 링크 시작값
-		var contextRoot = rootPath;
+		this.contextRoot = rootPath;
 		// 삭제된 메모 아이디 저장. 큐 형태로 활용
-		var deleteQueue = [];
+		this.deleteQueue = [];
+		this.memoMap = {};
 		var instance = this;
 		
 		this.init = function(){
@@ -30,9 +31,13 @@
 		
 		// 전체 메모장을 불러온다.
 		this.loadAllMemo = function(){
-			$.get(contextRoot + "/listAllCtmemo.json", function(memoList) {
+			$.get(instance.contextRoot + "/listAllCtmemo.json", function(memoList) {
+				var aa = true;
 				$.each(memoList, function() {
-					console.log(this);
+					
+					instance.memoMap[this.ctmemoSeq] = this;
+					
+					
 					var item = $("<li/>").append("<a>");
 					var title = $("<p/>").append(this.content);
 					var regDate = new Date(this.regDate);
@@ -41,11 +46,14 @@
 
 					item.find("a").append(title);
 					item.find("a").append(date);
-					
 					item.find("a").attr("href", "#popup");
-					item.find("a").attr("data-rel", "dialog");
-					item.find("a").attr("data-transition", "pop");
+					item.find("a").attr("data-transition", "slide");
 					
+					item.attr("data-ctmemo_seq",this.ctmemoSeq);
+					item.attr("data-bg_css",this.bgCss);
+					item.attr("data-font_css",this.fontCss);
+					var regDate = new Date(this.regDate);
+					item.attr("data-reg_date",regDate.format("yyyy-MM-dd HH:mm:ss"));
 					$("._list").append(item);
 				});
 				
@@ -56,8 +64,20 @@
 	}
 
 	$(function(){
+		
 		var ctmemo = new Ctmemo("<%=request.getContextPath()%>");
 		ctmemo.init();
+		
+		$(document).on("click", "._list a", function(){
+			console.log($(this).parent("li"));
+			console.log(ctmemo.memoMap);
+		});
+		
+		
+
+		
+		
+		
 	});
 </script>
 </head>
@@ -68,8 +88,8 @@
 			<a href="#add-form" data-icon="plus" data-iconpos="notext">Add</a>
 			<a href="#nav-panel" data-icon="action" data-iconpos="notext">Undel.</a> 
 		</div>
-		<!-- /header -->
 		<ul data-role="listview" data-inset="true" class="_list">
+			<!-- 목록 표시 -->
 		</ul>
 	</div>
 	
@@ -78,19 +98,15 @@
 	
 	<!-- Start of third page: #popup -->
 	<div data-role="page" id="popup">
-		<div data-role="header" data-theme="e">
-			<h1>Dialog</h1>
-		</div><!-- /header -->
+		<div data-role="header">
+			<button class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-edit">Edit</button>
+			<h1>메모보기</h1>
+			<button class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-delete">Delete</button>
+		</div>
+		<div class="ui-body">
+			<p class="_content"></p>
+		</div>
+	</div><!-- /page popup -->
 	
-		<div data-role="content" data-theme="d">	
-			<h2>Popup</h2>
-			<p>I have an id of "popup" on my page container and only look like a dialog because the link to me had a <code>data-rel="dialog"</code> attribute which gives me this inset look and a <code>data-transition="pop"</code> attribute to change the transition to pop. Without this, I'd be styled as a normal page.</p>		
-			<p><a href="#one" data-rel="back" data-role="button" data-inline="true" data-icon="back">Back to page "one"</a></p>	
-		</div><!-- /content -->
-		
-		<div data-role="footer">
-			<h4>Page Footer</h4>
-		</div><!-- /footer -->
-	</div><!-- /page popup -->	
 </body>
 </html>
