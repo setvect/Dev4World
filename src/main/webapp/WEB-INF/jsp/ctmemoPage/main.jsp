@@ -14,9 +14,9 @@
 	function Ctmemo(rootPath){
 		// === 전역 변수
 		// 모든 링크 시작값
-		var CONTEXT_ROOT = rootPath;
+		var contextRoot = rootPath;
 		// 메모장에 적용될 스타일
-		var STYLE_LIST;
+		var styleListAll;
 		// 삭제된 메모 아이디 저장. 큐 형태로 활용
 		var deleteQueue = [];
 
@@ -62,8 +62,8 @@
 				instance.applyPalette(this);
 			});		
 			
-			$.get(CONTEXT_ROOT + "/listUsagestyle.json", function(styleList) {
-				instance.STYLE_LIST = styleList;
+			$.get(contextRoot + "/listUsagestyle.json", function(styleList) {
+				instance.styleListAll = styleList;
 				instance.loadPalette(styleList);
 			});
 			
@@ -97,7 +97,7 @@
 		
 		// 새로운 메모를 생성한다.
 		this.newMemo = function(){
-			$.get(CONTEXT_ROOT + "/newMemo.json", function(memo) {
+			$.get(contextRoot + "/newMemo.json", function(memo) {
 				instance.displayMemo(memo);
 				var newElement = $("._item[data-ctmemo_seq='"+memo.ctmemoSeq+"']")
 				instance.editMemo(newElement);
@@ -106,7 +106,7 @@
 
 		// 전체 메모장을 불러온다.
 		this.loadAllMemo = function(){
-			$.get(CONTEXT_ROOT + "/listAllCtmemo.json", function(memoList) {
+			$.get(contextRoot + "/listAllCtmemo.json", function(memoList) {
 				$.each(memoList, function() {
 					instance.displayMemo(this);
 				});
@@ -168,7 +168,7 @@
 			data["fontCss"] = element.attr("data-font_css");
 			data["regDate"] = element.attr("data-reg_date");
 			
-			$.post(CONTEXT_ROOT + "/saveMemo.do", data, function( zIndex ) {
+			$.post(contextRoot + "/saveMemo.do", data, function( zIndex ) {
 				element.css("z-index", zIndex)
 			});
 		}
@@ -209,7 +209,7 @@
 		// 메모 삭제
 		this.deleteMemo = function(deleteElement){
 			var seq = deleteElement.attr("data-ctmemo_seq");
-			$.post(CONTEXT_ROOT + "/deleteMemo.do", {ctmemoSeq: seq}, function( data ) {
+			$.post(contextRoot + "/deleteMemo.do", {ctmemoSeq: seq}, function( data ) {
 				deleteQueue.push(seq);
 				deleteElement.remove();
 				instance.undeleteDisplay();
@@ -233,7 +233,7 @@
 			var choiceStyle = $(choiceElement).attr("class");
 			var choiceType = $(choiceElement).parents("ul").attr("data-type");
 			
-			instance.STYLE_LIST[choiceType].forEach(function(entry){
+			instance.styleListAll[choiceType].forEach(function(entry){
 				targetMemo.removeClass(entry);
 			});
 			targetMemo.addClass(choiceStyle);
@@ -255,7 +255,7 @@
 		// 마지막 삭제 취소
 		this.undeleteMemo = function(){
 			var seq = deleteQueue.pop();
-			$.post(CONTEXT_ROOT + "/undelete.json", {ctmemoSeq: seq}, function( memo ) {
+			$.post(contextRoot + "/undelete.json", {ctmemoSeq: seq}, function( memo ) {
 				instance.displayMemo(memo);
 				instance.undeleteDisplay();
 			});	
