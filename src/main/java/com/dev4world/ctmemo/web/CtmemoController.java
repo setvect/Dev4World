@@ -1,8 +1,6 @@
 package com.dev4world.ctmemo.web;
 
 import java.beans.PropertyEditorSupport;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -171,12 +169,8 @@ public class CtmemoController {
 	public void binder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
 			public void setAsText(String value) {
-				try {
-					Date parsedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(value);
-					setValue(new Date(parsedDate.getTime()));
-				} catch (ParseException e) {
-					setValue(null);
-				}
+				Date parsedDate = new Date(Long.parseLong(value));
+				setValue(new Date(parsedDate.getTime()));
 			}
 		});
 	}
