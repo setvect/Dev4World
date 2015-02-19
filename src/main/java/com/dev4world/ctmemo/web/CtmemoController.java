@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import javax.servlet.ServletRequest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -52,10 +51,9 @@ public class CtmemoController {
 
 	private void init() {
 		if (!init) {
-			CtmemoVo ctmemoTestData = getCtmemoTestData();
-			ctmemoService.insert(ctmemoTestData);
-			CtmemoVo ctmemoTestData1 = getCtmemoTestData2();
-			ctmemoService.insert(ctmemoTestData1);
+			ctmemoService.insert(getCtmemoTestData1());
+			ctmemoService.insert(getCtmemoTestData2());
+			ctmemoService.insert(getCtmemoTestData3());
 			init = true;
 		}
 	}
@@ -116,10 +114,10 @@ public class CtmemoController {
 		return m;
 	}
 
-	public CtmemoVo getCtmemoTestData() {
+	public CtmemoVo getCtmemoTestData1() {
 		CtmemoVo ctmemo = new CtmemoVo();
 		ctmemo.setCtmemoSeq(1);
-		ctmemo.setContent("내용2\n복슬이");
+		ctmemo.setContent("내용1\n복슬이");
 		ctmemo.setBgCss(CtmemoConstant.Style.BGSTYLE_1);
 		ctmemo.setFontCss(CtmemoConstant.Style.FONTSTYLE_1);
 		ctmemo.setWidth(160);
@@ -137,7 +135,7 @@ public class CtmemoController {
 	public CtmemoVo getCtmemoTestData2() {
 		CtmemoVo ctmemo = new CtmemoVo();
 		ctmemo.setCtmemoSeq(2);
-		ctmemo.setContent("내용1");
+		ctmemo.setContent("내용2");
 		ctmemo.setBgCss(CtmemoConstant.Style.BGSTYLE_2);
 		ctmemo.setFontCss(CtmemoConstant.Style.FONTSTYLE_2);
 		ctmemo.setWidth(160);
@@ -146,6 +144,24 @@ public class CtmemoController {
 		ctmemo.setPositionY(100);
 		ctmemo.setzIndex(1);
 		Date date = DateUtil.getDate("2015-02-14");
+		ctmemo.setRegDate(date);
+		ctmemo.setUptDate(date);
+		return ctmemo;
+	}
+
+	public CtmemoVo getCtmemoTestData3() {
+		CtmemoVo ctmemo = new CtmemoVo();
+		ctmemo.setCtmemoSeq(2);
+		ctmemo.setContent("처음 느낀 그대 눈빛은 혼자만의 오해였던가요\n" + "해맑은 미소로 나를 바보로 만들었소\n" + "내 곁을 떠나가던 날\n" + "가슴에 품었던 분홍빛의\n"
+				+ "수많은 추억들이 푸르게 바래졌소 ");
+		ctmemo.setBgCss(CtmemoConstant.Style.BGSTYLE_2);
+		ctmemo.setFontCss(CtmemoConstant.Style.FONTSTYLE_2);
+		ctmemo.setWidth(160);
+		ctmemo.setHeight(150);
+		ctmemo.setPositionX(300);
+		ctmemo.setPositionY(350);
+		ctmemo.setzIndex(1);
+		Date date = DateUtil.getDate("2015-02-15");
 		ctmemo.setRegDate(date);
 		ctmemo.setUptDate(date);
 		return ctmemo;
