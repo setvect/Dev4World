@@ -32,6 +32,17 @@
 		this.init = function(){
 			this.loadAllMemo();
 			
+			// 편집
+			$(document).on("click", "._edit", function(){
+				instance.editMemo();
+			});
+
+			// 저장
+			$(document).on("click", "._save", function(){
+				instance.saveMemo();
+			});
+			
+			// 삭제
 			$(document).on("click", "._delete", function(){
 				instance.deleteMemo();
 			});
@@ -47,17 +58,7 @@
 			});
 			
 			instance.undeleteDisplay();
-		}
-		
-		this.contentView = function(eventElement){
-			var item = $(eventElement).parent("li");
-			var seq = item.attr("data-ctmemo_seq");
-
-			// 메모 본문 표시
-			var memo = instance.memoMap[seq];
-			instance.currentMemoSeq = seq;
-			$("._content").append(newline2br(memo.content));
-		}
+		};
 		
 		// 전체 메모장을 불러온다.
 		this.loadAllMemo = function(){
@@ -88,7 +89,35 @@
 				// jquery mobile rendering 
 				$("._list").listview('refresh');
 			});
-		}
+		};
+		
+		// 본문 읽기
+		this.contentView = function(eventElement){
+			var item = $(eventElement).parent("li");
+			var seq = item.attr("data-ctmemo_seq");
+
+			// 메모 본문 표시
+			var memo = instance.memoMap[seq];
+			instance.currentMemoSeq = seq;
+			$("._content").html(newline2br(memo.content));
+		};
+		
+		// 메모수정
+		this.editMemo = function(){
+			 var memo = instance.memoMap[instance.currentMemoSeq];
+			 $("._contentInput").val(memo.content);
+			 $.mobile.navigate("#write_page")
+		};
+		
+		// 편집중인 메모 저장
+		this.saveMemo = function(){
+			var memo = instance.memoMap[instance.currentMemoSeq];
+			memo.content = $("._contentInput").val();
+			$.post(instance.contextRoot + "/saveMemo.do", memo, function() {
+				instance.loadAllMemo();
+				$.mobile.navigate("#list_page");
+			});			
+		};
 		
 		// 메모 삭제
 		this.deleteMemo = function(){
@@ -98,23 +127,21 @@
 				instance.loadAllMemo();
 				$.mobile.navigate("#list_page");
 			});		
-		}		
+		};		
 		
 		// 마지막 삭제 취소
 		this.undeleteMemo = function(){
-			console.log("DDDDDDDDDDDDD");
 			var seq = instance.deleteQueue.pop();
 			$.post(instance.contextRoot + "/undelete.json", {ctmemoSeq: seq}, function( memo ) {
 				instance.loadAllMemo();
 				instance.undeleteDisplay();
 			});	
-		}
+		};
 		
 		// 삭제 취소 버튼 활성화 여부 
 		this.undeleteDisplay = function(){
-			console.log("################");
 			$("._undelete").css("display", instance.deleteQueue.length == 0 ? "none" : "inline-block");
-		}
+		};
 	}
 
 	$(function(){
@@ -144,7 +171,7 @@
 			<h1>메모보기</h1>
 			<div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">  
      		<a class="ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-delete delete_btn _delete">Delete</a>
-     		<a class="ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-edit">Edit</a>
+     		<a class="ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-edit _edit">Edit</a>
   		</div>
 		</div>
 		<div class="ui-body">
@@ -152,15 +179,14 @@
 		</div>
 	</div>
 	
-	
 	<div data-role="page" id="write_page">
 		<div data-role="header">
-			<a href="#" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-back">Back</a>
+			<a href="#" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-back" data-rel="back" data-direction="reverse">Back</a>
 			<h1>메모등록</h1>
-			<button class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check">Save</button>
+			<button class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check _save">Save</button>
 		</div>
 		<!-- /content -->
-		<textarea name="textarea-2" rows="10">Textarea</textarea>
+		<textarea name="textarea-2" rows="10" class="_contentInput">Textarea</textarea>
 	</div>
 </body>
 </html>

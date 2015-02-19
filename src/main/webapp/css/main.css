@@ -22,11 +22,12 @@ hr{display:none}
 legend{*width:0}
 table{border-collapse:collapse;border-spacing:0}
 
-
 .memo {
 	padding: 5px;
 	position: absolute;
-}
+	overflow: hidden;
+	text-overflow: ellipsis;
+}     
 
 .memo {
 	font-size: 13px;

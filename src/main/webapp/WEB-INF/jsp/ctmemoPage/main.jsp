@@ -19,7 +19,7 @@
 		this.styleListAll;
 		// 삭제된 메모 아이디 저장. 큐 형태로 활용
 		this.deleteQueue = [];
-
+		
 		var instance = this;
 		
 		this.init = function(){
@@ -119,8 +119,7 @@
 			item.attr("data-ctmemo_seq",memo.ctmemoSeq);
 			item.attr("data-bg_css",memo.bgCss);
 			item.attr("data-font_css",memo.fontCss);
-			var regDate = new Date(memo.regDate);
-			item.attr("data-reg_date",regDate.format("yyyy-MM-dd HH:mm:ss"));
+			item.attr("data-reg_date",memo.regDate);
 			item.find("._content").append(newline2br(memo.content));
 			item.css("left", memo.positionX)
 				.css("top", memo.positionY)
@@ -130,6 +129,7 @@
 				.addClass(memo.bgCss)
 				.addClass(memo.fontCss);
 			
+			var regDate = new Date(memo.regDate);
 			item.find("._header").append(regDate.format("yy.MM.dd"));
 			item.find("._header").append("<input type='button' value='D' class='_delete'/>");
 			item.find("._header").append("<input type='button' value='E' class='_edit'/>");
