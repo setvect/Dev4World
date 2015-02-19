@@ -14,11 +14,11 @@
 	function Ctmemo(rootPath){
 		// === 전역 변수
 		// 모든 링크 시작값
-		var contextRoot = rootPath;
+		this.contextRoot = rootPath;
 		// 메모장에 적용될 스타일
-		var styleListAll;
+		this.styleListAll;
 		// 삭제된 메모 아이디 저장. 큐 형태로 활용
-		var deleteQueue = [];
+		this.deleteQueue = [];
 
 		var instance = this;
 		
@@ -62,7 +62,7 @@
 				instance.applyPalette(this);
 			});		
 			
-			$.get(contextRoot + "/listUsagestyle.json", function(styleList) {
+			$.get(instance.contextRoot + "/listUsagestyle.json", function(styleList) {
 				instance.styleListAll = styleList;
 				instance.loadPalette(styleList);
 			});
@@ -97,7 +97,7 @@
 		
 		// 새로운 메모를 생성한다.
 		this.newMemo = function(){
-			$.get(contextRoot + "/newMemo.json", function(memo) {
+			$.get(instance.contextRoot + "/newMemo.json", function(memo) {
 				instance.displayMemo(memo);
 				var newElement = $("._item[data-ctmemo_seq='"+memo.ctmemoSeq+"']")
 				instance.editMemo(newElement);
@@ -106,7 +106,7 @@
 
 		// 전체 메모장을 불러온다.
 		this.loadAllMemo = function(){
-			$.get(contextRoot + "/listAllCtmemo.json", function(memoList) {
+			$.get(instance.contextRoot + "/listAllCtmemo.json", function(memoList) {
 				$.each(memoList, function() {
 					instance.displayMemo(this);
 				});
@@ -168,7 +168,7 @@
 			data["fontCss"] = element.attr("data-font_css");
 			data["regDate"] = element.attr("data-reg_date");
 			
-			$.post(contextRoot + "/saveMemo.do", data, function( zIndex ) {
+			$.post(instance.contextRoot + "/saveMemo.do", data, function( zIndex ) {
 				element.css("z-index", zIndex)
 			});
 		}
@@ -209,8 +209,8 @@
 		// 메모 삭제
 		this.deleteMemo = function(deleteElement){
 			var seq = deleteElement.attr("data-ctmemo_seq");
-			$.post(contextRoot + "/deleteMemo.do", {ctmemoSeq: seq}, function( data ) {
-				deleteQueue.push(seq);
+			$.post(instance.contextRoot + "/deleteMemo.do", {ctmemoSeq: seq}, function( data ) {
+				instance.deleteQueue.push(seq);
 				deleteElement.remove();
 				instance.undeleteDisplay();
 			});		
@@ -249,13 +249,13 @@
 		
 		// 삭제 취소 버튼 활성화 여부 
 		this.undeleteDisplay = function(){
-			$("._undelete").css("display", deleteQueue.length == 0 ? "none" : "inline-block");
+			$("._undelete").css("display", instance.deleteQueue.length == 0 ? "none" : "inline-block");
 		}
 		
 		// 마지막 삭제 취소
 		this.undeleteMemo = function(){
-			var seq = deleteQueue.pop();
-			$.post(contextRoot + "/undelete.json", {ctmemoSeq: seq}, function( memo ) {
+			var seq = instance.deleteQueue.pop();
+			$.post(instance.contextRoot + "/undelete.json", {ctmemoSeq: seq}, function( memo ) {
 				instance.displayMemo(memo);
 				instance.undeleteDisplay();
 			});	
