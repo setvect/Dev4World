@@ -1,3 +1,24 @@
+// br 테그를 newline(\n)
+function br2newline(str){
+	return str.replace(/<br>/g, "\n")
+}
+
+//  newline(\n)을 br 테그로
+function newline2br(str){
+	return str.replace(/\n/g, "<br>")
+}
+
+// Html 테크 제거
+function removeTags (str) {
+	return str.replace(/<(?:.|\n)*?>/gm, '');
+}
+
+// 매칭 문자열 교체
+function replaceAll(str, find, replace) {
+	return str.replace(new RegExp(find, 'g'), replace);
+}
+
+
 //  사용예: (new Date()).format("yyyy-MM-dd HH:mm:ss")
 Date.prototype.format = function(f) {
 	if (!this.valueOf())

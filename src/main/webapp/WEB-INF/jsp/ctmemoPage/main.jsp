@@ -11,298 +11,285 @@
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/jquery-ui.css"/>" />
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/main.css"/>" />
 <script type="text/javascript">
-	// === 전역 변수
-	// 모든 링크 시작값
-	var CONTEXT_ROOT = "<%=request.getContextPath()%>";
-	// 메모장에 적용될 스타일
-	var STYLE_LIST;
-	// 삭제된 메모 아이디 저장. 큐 형태로 활용
-	var deleteQueue = [];
-	
-	$(function() {
-		loadAllMemo();
-		$("._new").on("click", function(){
-			newMemo();			
-		});
-		
-		$("._undelete").on("click", function(){
-			undeleteMemo();			
-		});
-		
-		$("._search").keyup(function(){
-			search($(this).val());
-		});
+	function Ctmemo(rootPath){
+		// === 전역 변수
+		// 모든 링크 시작값
+		var CONTEXT_ROOT = rootPath;
+		// 메모장에 적용될 스타일
+		var STYLE_LIST;
+		// 삭제된 메모 아이디 저장. 큐 형태로 활용
+		var deleteQueue = [];
 
-		// 각 메모장 상단 버튼 이벤트
-		$("#space").on("click", "._delete", function(){
-			var eventObj = $(this).parents("._item");
-			deleteMemo(eventObj);
-		});
+		var instance = this;
 		
-		$("#space").on("click", "._edit", function(){
-			var eventObj = $(this).parents("._item");
-			editMemo(eventObj);
-		});
-		
-		$("#space").on("click", "._done", function(){
-			var eventObj = $(this).parents("._item");
-			editMemoDone(eventObj);
-		});		
-		
-		$("#space").on("click", "._style", function(event){
-			var eventObj = $(this).parents("._item");
-			choiceStyle(eventObj, event);
-		});		
-		
-		// 팔레트 항목 클릭
-		$("._style_palette").on("click", "div", function(){
-			applyPalette(this);
-		});		
-		
-		$.get(CONTEXT_ROOT + "/listUsagestyle.json", function(styleList) {
-			STYLE_LIST = styleList;	
-			loadPalette(styleList);
-		});
-		
-		// 검색 텍스트 검색 취소 버튼.
-		$(document).on('input', '.clearable', function() {
-	    $(this)[tog(this.value)]('x');
-		}).on('mousemove', '.x', function(e) {
-		    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');   
-		}).on('click', '.onX', function(){
-		    $(this).removeClass('x onX').val('').change();
-		    search("");
-		});
-	});
-
-	// 팔레트 적용
-	function loadPalette(styleList){
-		console.log(styleList);
-		
-		var bg = $("._style_palette ._bg");
-		styleList["bg"].forEach(function(entry){
-			var area = $("<li/>").append("<div/>")
-			area.find("div").addClass(entry);
-			bg.append(area);
-		});
-		
-		var font = $("._style_palette ._font");
-		styleList["font"].forEach(function(entry){
-			var area = $("<li/>").append("<div>T</div>")
-			area.find("div").addClass(entry);
-			font.append(area);
-		});
-	}
-	
-	// 새로운 메모를 생성한다.
-	function newMemo(){
-		$.get(CONTEXT_ROOT + "/newMemo.json", function(memo) {
-			displayMemo(memo);
-			var newElement = $("._item[data-ctmemo_seq='"+memo.ctmemoSeq+"']")
-			editMemo(newElement);
-		});
-	}
-
-	// 전체 메모장을 불러온다.
-	function loadAllMemo(){
-		$.get(CONTEXT_ROOT + "/listAllCtmemo.json", function(memoList) {
-			$.each(memoList, function() {
-				displayMemo(this);
+		this.init = function(){
+			this.loadAllMemo();
+			$("._new").on("click", function(){
+				instance.newMemo();			
 			});
-		});
-	}
-	
-	// 한 개 메모를 화면에 표시
-	function displayMemo(memo){
-		var item = $("<div id='draggable' class='memo _item'><span class='toolbar _header'></span><div class='itemContent _content'></div></div>");
-		item.attr("data-ctmemo_seq",memo.ctmemoSeq);
-		item.attr("data-bg_css",memo.bgCss);
-		item.attr("data-font_css",memo.fontCss);
-		var regDate = new Date(memo.regDate);
-		item.attr("data-reg_date",regDate.format("yyyy-MM-dd HH:mm:ss"));
-		item.find("._content").append(newline2br(memo.content));
-		item.css("left", memo.positionX)
-			.css("top", memo.positionY)
-			.css("z-index", memo.zIndex)
-			.css("width", memo.width)
-			.css("height", memo.height)
-			.addClass(memo.bgCss)
-			.addClass(memo.fontCss);
-		
-		item.find("._header").append(regDate.format("yy.MM.dd"));
-		item.find("._header").append("<input type='button' value='D' class='_delete'/>");
-		item.find("._header").append("<input type='button' value='E' class='_edit'/>");
-		item.find("._header").append("<input type='button' value='Done' class='_done' />");
-		item.find("._header").append("<input type='button' value='S' class='_style styleBtn'/>");
-		item.find("._header ._done").hide();
-		
-		$("#space").append(item);		
-		item.draggable({stop: function(eventObj){
-			var element = $(eventObj.target);
-			saveMemo(element);
-		}});
-		item.resizable({   
-			maxHeight: 300,
-		   maxWidth: 300,
-		   minHeight: 80,
-		   minWidth: 130,
-		   stop: function(eventObj){
-				var element = $(eventObj.target);
-				saveMemo(element);
-		  	}
-		});
-	}
-	
-	// 추가 또는 변경된 메모장을 저장
-	function saveMemo(element){
-		var data = {};
-		data["ctmemoSeq"] = parseInt(element.attr("data-ctmemo_seq"));
-		data["content"] = removeTags(br2newline(element.find("._content").html()));
-		data["zIndex"] = parseInt(element.css("z-index"));
-		data["width"] = parseInt(element.css("width").replace('px', ''));
-		data["height"] = parseInt(element.css("height").replace('px', ''));
-		data["positionX"] = parseInt(element.css("left").replace('px', ''));
-		data["positionY"] = parseInt(element.css("top").replace('px', ''));
-		data["bgCss"] = element.attr("data-bg_css");
-		data["fontCss"] = element.attr("data-font_css");
-		data["regDate"] = element.attr("data-reg_date");
-		
-		$.post(CONTEXT_ROOT + "/saveMemo.do", data, function( zIndex ) {
-			element.css("z-index", zIndex)
-		});
-	}
-	
-	// 메모 수정
-	function editMemo(editElement){
-		// 편집 상태에선 드레그, 사이즈 조정 금지
-		editElement.draggable("disable")
-		editElement.resizable("disable")
-		
-		editElement.find("._header ._edit").hide();
-		editElement.find("._header ._done").show();
-		
-		var content = br2newline(editElement.find("._content").html());
-		content = removeTags(content);
-		var width = editElement.find("._content").width() - 6;
-		// .content 높이를 가져오지 못함
-		var height = editElement.height() - 30;
-		
-		editElement.find("._content").html("");
-		editElement.find("._content").append("<textarea>"+content+"</textarea>")
-		editElement.find("textarea").css("width", width).css("height", height);
-	}
-	
-	// 메모 수정 사항 서버 반영
-	function editMemoDone(editElement){
-		editElement.draggable("enable")
-		editElement.resizable("enable")
+			
+			$("._undelete").on("click", function(){
+				instance.undeleteMemo();			
+			});
+			
+			$("._search").keyup(function(){
+				instance.search($(this).val());
+			});
 
-		editElement.find("._header ._edit").show();
-		editElement.find("._header ._done").hide();
-		var content = newline2br(editElement.find("._content textarea").val());
-		editElement.find("._content").html("");
-		editElement.find("._content").append(content)
-		saveMemo(editElement);
-	}
-	
-	// 메모 삭제
-	function deleteMemo(deleteElement){
-		var seq = deleteElement.attr("data-ctmemo_seq");
-		$.post(CONTEXT_ROOT + "/deleteMemo.do", {ctmemoSeq: seq}, function( data ) {
-			deleteQueue.push(seq);
-			deleteElement.remove();
-			undeleteDisplay();
-		});		
-	}
-	
-	// 스타일 선택
-	function choiceStyle(choiceElement, event){
-		var ctmemoSeq = choiceElement.attr("data-ctmemo_seq");
-		$("._style_palette").attr("data-target_seq", ctmemoSeq);
-		$("._style_palette").css("left", event.pageX);
-		$("._style_palette").css("top", event.pageY);
-		$("._style_palette").show();
-	}
-	
-	// 스타일 적용
-	function applyPalette(choiceElement){
-		var ctmemoSeq = $("._style_palette").attr("data-target_seq");
-		var targetMemo = $("._item[data-ctmemo_seq='"+ctmemoSeq+"']");
-		
-		var choiceStyle = $(choiceElement).attr("class");
-		var choiceType = $(choiceElement).parents("ul").attr("data-type");
-		
-		STYLE_LIST[choiceType].forEach(function(entry){
-			targetMemo.removeClass(entry);
-		});
-		targetMemo.addClass(choiceStyle);
-		if(choiceType == "bg"){
-			targetMemo.attr("data-bg_css", choiceStyle);
+			// 각 메모장 상단 버튼 이벤트
+			$("#space").on("click", "._delete", function(){
+				var eventObj = $(this).parents("._item");
+				instance.deleteMemo(eventObj);
+			});
+			
+			$("#space").on("click", "._edit", function(){
+				var eventObj = $(this).parents("._item");
+				instance.editMemo(eventObj);
+			});
+			
+			$("#space").on("click", "._done", function(){
+				var eventObj = $(this).parents("._item");
+				instance.editMemoDone(eventObj);
+			});		
+			
+			$("#space").on("click", "._style", function(event){
+				var eventObj = $(this).parents("._item");
+				instance.choiceStyle(eventObj, event);
+			});		
+			
+			// 팔레트 항목 클릭
+			$("._style_palette").on("click", "div", function(){
+				instance.applyPalette(this);
+			});		
+			
+			$.get(CONTEXT_ROOT + "/listUsagestyle.json", function(styleList) {
+				instance.STYLE_LIST = styleList;
+				instance.loadPalette(styleList);
+			});
+			
+			// 검색 텍스트 검색 취소 버튼.
+			$(document).on('input', '.clearable', function() {
+		    $(this)[instance.tog(this.value)]('x');
+			}).on('mousemove', '.x', function(e) {
+			    $(this)[instance.tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');   
+			}).on('click', '.onX', function(){
+			    $(this).removeClass('x onX').val('').change();
+			    instance.search("");
+			});			
 		}
-		else{
-			targetMemo.attr("data-font_css", choiceStyle);
+		
+		// 팔레트 적용
+		this.loadPalette = function(styleList){
+			var bg = $("._style_palette ._bg");
+			styleList["bg"].forEach(function(entry){
+				var area = $("<li/>").append("<div/>")
+				area.find("div").addClass(entry);
+				bg.append(area);
+			});
+			
+			var font = $("._style_palette ._font");
+			styleList["font"].forEach(function(entry){
+				var area = $("<li/>").append("<div>T</div>")
+				area.find("div").addClass(entry);
+				font.append(area);
+			});
 		}
-		saveMemo(targetMemo);
-		$("._style_palette").hide();
-	}
-	
-	// 삭제 취소 버튼 활성화 여부 
-	function undeleteDisplay(){
-		$("._undelete").css("display", deleteQueue.length == 0 ? "none" : "inline-block");
-	}
-	
-	// 마지막 삭제 취소
-	function undeleteMemo(){
-		var seq = deleteQueue.pop();
-		$.post(CONTEXT_ROOT + "/undelete.json", {ctmemoSeq: seq}, function( memo ) {
-			displayMemo(memo);
-			undeleteDisplay();
-		});	
-	}
-	
-	// 메모 검색
-	function search(word){
-		$("#space ._item").each(function(){
-			var content = br2newline($(this).find("._content").html());
+		
+		// 새로운 메모를 생성한다.
+		this.newMemo = function(){
+			$.get(CONTEXT_ROOT + "/newMemo.json", function(memo) {
+				instance.displayMemo(memo);
+				var newElement = $("._item[data-ctmemo_seq='"+memo.ctmemoSeq+"']")
+				instance.editMemo(newElement);
+			});
+		}
+
+		// 전체 메모장을 불러온다.
+		this.loadAllMemo = function(){
+			$.get(CONTEXT_ROOT + "/listAllCtmemo.json", function(memoList) {
+				$.each(memoList, function() {
+					instance.displayMemo(this);
+				});
+			});
+		}
+		
+		// 한 개 메모를 화면에 표시
+		this.displayMemo = function(memo){
+			var item = $("<div id='draggable' class='memo _item'><span class='toolbar _header'></span><div class='itemContent _content'></div></div>");
+			item.attr("data-ctmemo_seq",memo.ctmemoSeq);
+			item.attr("data-bg_css",memo.bgCss);
+			item.attr("data-font_css",memo.fontCss);
+			var regDate = new Date(memo.regDate);
+			item.attr("data-reg_date",regDate.format("yyyy-MM-dd HH:mm:ss"));
+			item.find("._content").append(newline2br(memo.content));
+			item.css("left", memo.positionX)
+				.css("top", memo.positionY)
+				.css("z-index", memo.zIndex)
+				.css("width", memo.width)
+				.css("height", memo.height)
+				.addClass(memo.bgCss)
+				.addClass(memo.fontCss);
+			
+			item.find("._header").append(regDate.format("yy.MM.dd"));
+			item.find("._header").append("<input type='button' value='D' class='_delete'/>");
+			item.find("._header").append("<input type='button' value='E' class='_edit'/>");
+			item.find("._header").append("<input type='button' value='Done' class='_done' />");
+			item.find("._header").append("<input type='button' value='S' class='_style styleBtn'/>");
+			item.find("._header ._done").hide();
+			
+			$("#space").append(item);		
+			item.draggable({stop: function(eventObj){
+				var element = $(eventObj.target);
+				instance.saveMemo(element);
+			}});
+			item.resizable({   
+				maxHeight: 300,
+			  maxWidth: 300,
+			  minHeight: 80,
+			  minWidth: 130,
+			  stop: function(eventObj){
+					var element = $(eventObj.target);
+					instance.saveMemo(element);
+			  }
+			});
+		}
+		
+		// 추가 또는 변경된 메모장을 저장
+		this.saveMemo = function(element){
+			var data = {};
+			data["ctmemoSeq"] = parseInt(element.attr("data-ctmemo_seq"));
+			data["content"] = removeTags(br2newline(element.find("._content").html()));
+			data["zIndex"] = parseInt(element.css("z-index"));
+			data["width"] = parseInt(element.css("width").replace('px', ''));
+			data["height"] = parseInt(element.css("height").replace('px', ''));
+			data["positionX"] = parseInt(element.css("left").replace('px', ''));
+			data["positionY"] = parseInt(element.css("top").replace('px', ''));
+			data["bgCss"] = element.attr("data-bg_css");
+			data["fontCss"] = element.attr("data-font_css");
+			data["regDate"] = element.attr("data-reg_date");
+			
+			$.post(CONTEXT_ROOT + "/saveMemo.do", data, function( zIndex ) {
+				element.css("z-index", zIndex)
+			});
+		}
+		
+		// 메모 수정
+		this.editMemo = function(editElement){
+			// 편집 상태에선 드레그, 사이즈 조정 금지
+			editElement.draggable("disable")
+			editElement.resizable("disable")
+			
+			editElement.find("._header ._edit").hide();
+			editElement.find("._header ._done").show();
+			
+			var content = br2newline(editElement.find("._content").html());
 			content = removeTags(content);
-			if(word.length == 0){
-				$(this).removeClass("not_search");
-			}
-			else if(content.indexOf(word) == -1){
-				$(this).addClass("not_search");
+			var width = editElement.find("._content").width() - 6;
+			// .content 높이를 가져오지 못함
+			var height = editElement.height() - 30;
+			
+			editElement.find("._content").html("");
+			editElement.find("._content").append("<textarea>"+content+"</textarea>")
+			editElement.find("textarea").css("width", width).css("height", height);
+		}
+		
+		// 메모 수정 사항 서버 반영
+		this.editMemoDone = function(editElement){
+			editElement.draggable("enable")
+			editElement.resizable("enable")
+
+			editElement.find("._header ._edit").show();
+			editElement.find("._header ._done").hide();
+			var content = newline2br(editElement.find("._content textarea").val());
+			editElement.find("._content").html("");
+			editElement.find("._content").append(content)
+			instance.saveMemo(editElement);
+		}
+		
+		// 메모 삭제
+		this.deleteMemo = function(deleteElement){
+			var seq = deleteElement.attr("data-ctmemo_seq");
+			$.post(CONTEXT_ROOT + "/deleteMemo.do", {ctmemoSeq: seq}, function( data ) {
+				deleteQueue.push(seq);
+				deleteElement.remove();
+				instance.undeleteDisplay();
+			});		
+		}
+		
+		// 스타일 선택
+		this.choiceStyle = function(choiceElement, event){
+			var ctmemoSeq = choiceElement.attr("data-ctmemo_seq");
+			$("._style_palette").attr("data-target_seq", ctmemoSeq);
+			$("._style_palette").css("left", event.pageX);
+			$("._style_palette").css("top", event.pageY);
+			$("._style_palette").show();
+		}
+		
+		// 스타일 적용
+		this.applyPalette = function(choiceElement){
+			var ctmemoSeq = $("._style_palette").attr("data-target_seq");
+			var targetMemo = $("._item[data-ctmemo_seq='"+ctmemoSeq+"']");
+			
+			var choiceStyle = $(choiceElement).attr("class");
+			var choiceType = $(choiceElement).parents("ul").attr("data-type");
+			
+			instance.STYLE_LIST[choiceType].forEach(function(entry){
+				targetMemo.removeClass(entry);
+			});
+			targetMemo.addClass(choiceStyle);
+			if(choiceType == "bg"){
+				targetMemo.attr("data-bg_css", choiceStyle);
 			}
 			else{
-				$(this).removeClass("not_search");
-				content = replaceAll(content, word, "<span>" + word + "</span>");
+				targetMemo.attr("data-font_css", choiceStyle);
 			}
-			$(this).find("._content").html(newline2br(content));
-		});
-	}
+			instance.saveMemo(targetMemo);
+			$("._style_palette").hide();
+		}
+		
+		// 삭제 취소 버튼 활성화 여부 
+		this.undeleteDisplay = function(){
+			$("._undelete").css("display", deleteQueue.length == 0 ? "none" : "inline-block");
+		}
+		
+		// 마지막 삭제 취소
+		this.undeleteMemo = function(){
+			var seq = deleteQueue.pop();
+			$.post(CONTEXT_ROOT + "/undelete.json", {ctmemoSeq: seq}, function( memo ) {
+				instance.displayMemo(memo);
+				instance.undeleteDisplay();
+			});	
+		}
+		
+		// 메모 검색
+		this.search = function(word){
+			$("#space ._item").each(function(){
+				var content = br2newline($(this).find("._content").html());
+				content = removeTags(content);
+				if(word.length == 0){
+					$(this).removeClass("not_search");
+				}
+				else if(content.indexOf(word) == -1){
+					$(this).addClass("not_search");
+				}
+				else{
+					$(this).removeClass("not_search");
+					content = replaceAll(content, word, "<span>" + word + "</span>");
+				}
+				$(this).find("._content").html(newline2br(content));
+			});
+		}
+		
+		// 검색 취소 버튼 스타일 
+		this.tog = function(v){
+			return v ? 'addClass':'removeClass';
+		} 	
+	};
 	
-	// br 테그를 newline(\n)
-	function br2newline(str){
-		return str.replace(/<br>/g, "\n")
-	}
-	
-	//  newline(\n)을 br 테그로
-	function newline2br(str){
-		return str.replace(/\n/g, "<br>")
-	}
-	
-	// Html 테크 제거
-	function removeTags (str) {
-		return str.replace(/<(?:.|\n)*?>/gm, '');
-	}
-	
-	// 매칭 문자열 교체
-	function replaceAll(str, find, replace) {
-		return str.replace(new RegExp(find, 'g'), replace);
-	}
-	
-	// 검색 취소 버튼 스타일 
-	function tog(v){
-		return v ? 'addClass':'removeClass';
-	} 	
+	$(function() {
+		var ctmemo = new Ctmemo("<%=request.getContextPath()%>");
+		ctmemo.init();
+	});
 </script>
 </head>
 <body>
