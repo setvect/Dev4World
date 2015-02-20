@@ -43,7 +43,6 @@ table{border-collapse:collapse;border-spacing:0}
 }
 
 .memo span .styleBtn {
-	background-color: orange;
 }
 .memo span input {
 	padding: 0 1px;
@@ -92,24 +91,24 @@ table{border-collapse:collapse;border-spacing:0}
 /* 메모장 적용 스타일 */
 ._ct_bgstyle_1{
 	border: 1px solid #a9abb0;
-	background-color: teal;
+	background-color: #ffffff;
 }
 ._ct_bgstyle_2{
 	border: 1px solid #a9abb0;
-	background-color: fuchsia;
+	background-color: #e0ffff;
 }
 ._ct_bgstyle_3{
 	border: 1px solid #a9abb0;
-	background-color: activeborder;
+	background-color: #6495ed;
 }
 
 ._ct_fontstyle_1{
 	border: 1px solid #a9abb0;
-	color: purple;
+	color: black;
 }
 ._ct_fontstyle_2{
 	border: 1px solid #a9abb0;
-	color: black;
+	color: red;
 }
 ._ct_fontstyle_3{
 	border: 1px solid #a9abb0;
