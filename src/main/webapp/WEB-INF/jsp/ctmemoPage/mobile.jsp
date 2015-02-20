@@ -9,9 +9,15 @@
 <link rel="stylesheet" href="<c:url value="/css/jquery.mobile-1.4.5.css"/>">
 <link rel="stylesheet" href="<c:url value="/css/theme-classic.css"/>">
 
+
+
 <style type="text/css">
 	textarea.ui-input-text { min-height: 10em;}
+	.ui-listview p:nth-of-type(1){
+		margin-right: 4em;
+	}
 </style>
+
 <script type="text/javascript" src="<c:url value="/js/jquery-1.11.2.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/jquery.mobile-1.4.5.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/util.js"/>"></script>
