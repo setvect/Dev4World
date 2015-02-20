@@ -164,7 +164,6 @@
 				$("#myFilter").change();
 			}
 		});
-		
 		var ctmemo = new Ctmemo("<%=request.getContextPath()%>");
 		ctmemo.init();
 	});
