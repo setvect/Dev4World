@@ -8,7 +8,7 @@
 <title>작업.</title>
 <link rel="stylesheet" href="<c:url value="/css/jquery.mobile-1.4.5.css"/>">
 <style type="text/css">
-	textarea.ui-input-text { height: inherit !important}
+	textarea.ui-input-text { min-height: 10em;}
 	.ui-listview p:nth-of-type(1){
 		margin-right: 60px;
 	}
@@ -205,7 +205,7 @@
 			<button class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check _save">Save</button>
 		</div>
 		<!-- /content -->
-		<textarea name="textarea-2" rows="10" class="_contentInput">Textarea</textarea>
+		<textarea name="textarea-2" class="_contentInput"></textarea>
 	</div>
 </body>
 </html>
