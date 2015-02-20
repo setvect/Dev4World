@@ -7,14 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>작업.</title>
 <link rel="stylesheet" href="<c:url value="/css/jquery.mobile-1.4.5.css"/>">
+<link rel="stylesheet" href="<c:url value="/css/theme-classic.css"/>">
+
 <style type="text/css">
 	textarea.ui-input-text { min-height: 10em;}
-	.ui-listview p:nth-of-type(1){
-		margin-right: 60px;
-	}
-	.delete_btn {
-		margin-right: 0.5em !important;
-	}
 </style>
 <script type="text/javascript" src="<c:url value="/js/jquery-1.11.2.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/jquery.mobile-1.4.5.js"/>"></script>
@@ -170,7 +166,7 @@
 </script>
 </head>
 <body>
-	<div data-role="page" data-title="작업."	data-url="panel-fixed-page1" id="list_page">
+	<div data-role="page" data-title="작업."	data-url="panel-fixed-page1" id="list_page" data-theme="b">
 		<div data-role="header" data-position="fixed">
 			<h1>메모목록</h1>
 			<a href="#add-form" data-icon="plus" data-iconpos="notext" class="_new">Add</a>
@@ -179,12 +175,12 @@
 		<form class="ui-filterable">
 		  <input id="myFilter" data-type="search">
 		</form>		
-		<ul data-role="listview" data-inset="true" data-filter="true" data-input="#myFilter" class="_list">
+		<ul data-role="listview" data-inset="true" data-filter="true" data-input="#myFilter" class="_list" data-theme="c">
 			<!-- 목록 표시 -->
 		</ul>
 	</div>
 	
-	<div data-role="page" id="content_page">
+	<div data-role="page" id="content_page" data-theme="b">
 		<div data-role="header">
 			<a class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-back" data-rel="back" data-direction="reverse">Back</a>
 			<h1>메모보기</h1>
@@ -198,7 +194,7 @@
 		</div>
 	</div>
 	
-	<div data-role="page" id="write_page">
+	<div data-role="page" id="write_page" data-theme="b">
 		<div data-role="header">
 			<a href="#" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-back" data-rel="back" data-direction="reverse">Back</a>
 			<h1>메모등록</h1>
