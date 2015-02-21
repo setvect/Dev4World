@@ -49,9 +49,9 @@ public class CtmemoController {
 
 	private void init() {
 		if (!init) {
-			ctmemoService.insert(getCtmemoTestData1());
-			ctmemoService.insert(getCtmemoTestData2());
-			ctmemoService.insert(getCtmemoTestData3());
+			ctmemoService.insertCtmemo(getCtmemoTestData1());
+			ctmemoService.insertCtmemo(getCtmemoTestData2());
+			ctmemoService.insertCtmemo(getCtmemoTestData3());
 			init = true;
 		}
 	}

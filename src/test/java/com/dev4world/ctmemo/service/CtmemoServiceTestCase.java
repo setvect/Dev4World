@@ -20,7 +20,7 @@ public class CtmemoServiceTestCase extends CtmemoTestBase {
 	@Test
 	public void test() {
 		CtmemoVo ctmemo = CtmemoTestUtil.getCtmemoTestData();
-		service.insert(ctmemo);
+		service.insertCtmemo(ctmemo);
 
 		CtmemoVo getmemo = service.getCtmemo(ctmemo.getCtmemoSeq());
 		Assert.assertThat(ctmemo, CoreMatchers.is(getmemo));

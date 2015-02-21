@@ -34,10 +34,22 @@ public class CtmemoService {
 		return ctmemoDao.listCtmemo(condition);
 	}
 
-	public void insert(CtmemoVo ctmemo) {
+	public void insertCtmemo(CtmemoVo ctmemo) {
 		ctmemoDao.insertCtmemo(ctmemo);
 	}
 
+	
+	/**
+	 * 트랜젝션 테스트 용도. 
+	 * @param ctmemo
+	 */
+	public void insertCtmemoAndUpdate(CtmemoVo ctmemo) {
+		ctmemoDao.insertCtmemo(ctmemo);
+		ctmemo.setContent(ctmemo.getContent() + "########");
+		ctmemo.setBgCss(null);
+		ctmemoDao.updateCtmemo(ctmemo);
+	}
+	
 	/**
 	 * 새로운 메모장 생성<br>
 	 * 생성과 동시에 DB에 저장
@@ -57,7 +69,7 @@ public class CtmemoService {
 		Date date = new Date();
 		ctmemo.setRegDate(date);
 		ctmemo.setUptDate(date);
-		insert(ctmemo);
+		insertCtmemo(ctmemo);
 		return ctmemo;
 	}
 

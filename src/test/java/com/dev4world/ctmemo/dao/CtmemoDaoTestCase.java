@@ -23,8 +23,6 @@ public class CtmemoDaoTestCase extends CtmemoTestBase {
 		System.out.println(dao);
 
 		CtmemoVo ctmemo = CtmemoTestUtil.getCtmemoTestData();
-		dao.getMaxZindex();
-		
 		dao.insertCtmemo(ctmemo);
 
 		CtmemoVo getmemo = dao.getCtmemo(ctmemo.getCtmemoSeq());
