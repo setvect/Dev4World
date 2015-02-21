@@ -28,6 +28,7 @@ public class CtmemoDaoTestCase extends CtmemoTestBase {
 		dao.insertCtmemo(ctmemo);
 
 		CtmemoVo getmemo = dao.getCtmemo(ctmemo.getCtmemoSeq());
+		System.out.println(getmemo);
 		Assert.assertThat(ctmemo, CoreMatchers.is(getmemo));
 
 		CtmemoSearchCondition condition = new CtmemoSearchCondition();

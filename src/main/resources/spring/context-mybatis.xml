@@ -16,8 +16,8 @@
 		<property name="locations">
 			<list>
 				<value>classpath:/config/config.properties</value>
-				<value>classpath:/config/config_mybatis_h2.properties</value>
-				<!-- <value>classpath:/config/config_mybatis_mysql.properties</value> -->
+<!-- 				<value>classpath:/config/config_mybatis_h2.properties</value> -->
+				<value>classpath:/config/config_mybatis_mysql.properties</value>
 			</list>
 		</property>
 	</bean>

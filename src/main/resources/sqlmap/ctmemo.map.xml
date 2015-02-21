@@ -17,7 +17,7 @@
 		<result property="deleteF" column="DELETE_F" />
 	</resultMap>
  
-	<select id="getCtmemo" resultType="com.dev4world.ctmemo.CtmemoVo">
+	<select id="getCtmemo" resultMap="ctmemoVo" parameterType="java.lang.Integer">
 		select
 		CTMEMO_SEQ
 		, CONTENT
