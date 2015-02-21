@@ -12,6 +12,8 @@
 		<property name="locations">
 			<list>
 				<value>classpath:/config/config.properties</value>
+				<value>classpath:/config/config_hb_h2.properties</value>
+<!-- 				<value>classpath:/config/config_hb_mysql.properties</value> -->
 			</list>
 		</property>
 	</bean>
@@ -73,3 +75,4 @@
 		<aop:advisor advice-ref="hibernateTxAdvice" order="2" pointcut-ref="controller" />
 	</aop:config>
 </beans>
+

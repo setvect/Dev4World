@@ -171,6 +171,12 @@
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/setvect.jar</systemPath>
 		</dependency>
 
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.34</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>dev4world</finalName>
