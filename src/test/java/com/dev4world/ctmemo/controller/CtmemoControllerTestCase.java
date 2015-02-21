@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.ServletRequest;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
