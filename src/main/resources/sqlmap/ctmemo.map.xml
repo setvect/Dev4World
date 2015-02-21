@@ -16,7 +16,7 @@
 		<result property="regDate" column="REG_DATE" />
 		<result property="deleteF" column="DELETE_F" />
 	</resultMap>
- 
+
 	<select id="getCtmemo" resultMap="ctmemoVo" parameterType="java.lang.Integer">
 		select
 		CTMEMO_SEQ
@@ -24,7 +24,8 @@
 		, FONT_CSS
 		, BG_CSS
 		, Z_INDEX
-		, WIDTH
+		,
+		WIDTH
 		, HEIGHT
 		, POSITION_X
 		, POSITION_Y
@@ -38,9 +39,33 @@
 		select COALESCE(max(Z_INDEX) + 1, 1) from TBAA_CTMEMO where DELETE_F = 'N'
 	</select>
 
-	<insert id="insertCtmemo" parameterType="com.dev4world.ctmemo.CtmemoVo">
+	<select id="listCtmemo" resultMap="ctmemoVo" parameterType="com.dev4world.ctmemo.CtmemoSearchCondition">
+		select
+		CTMEMO_SEQ
+		, CONTENT
+		, FONT_CSS
+		, BG_CSS
+		, Z_INDEX
+		, WIDTH
+		, HEIGHT
+		, POSITION_X
+		, POSITION_Y
+		, UPT_DATE
+		, REG_DATE
+		, DELETE_F
+		from TBAA_CTMEMO where DELETE_F = 'N'
+		ORDER BY
+		CTMEMO_SEQ DESC
+	</select>
+
+	<insert id="insertCtmemo" parameterType="com.dev4world.ctmemo.CtmemoVo" useGeneratedKeys="true" >
+		<selectKey keyProperty="ctmemoSeq" resultType="int" order="BEFORE">
+			select COALESCE(max(CTMEMO_SEQ) + 1, 1) from TBAA_CTMEMO 
+		</selectKey>
+	
 		INSERT INTO TBAA_CTMEMO
-		( CTMEMO_SEQ
+		(
+		  CTMEMO_SEQ
 		, CONTENT
 		, FONT_CSS
 		, BG_CSS
@@ -67,5 +92,25 @@
 		, ${deleteF=="0"?"'N'":"'Y'"})
 	</insert>
 
+	<update id="updateCtmemo" parameterType="com.dev4world.ctmemo.CtmemoVo">
+		UPDATE TBAA_CTMEMO SET
+		CONTENT = #{content}
+		, FONT_CSS = #{fontCss}
+		, BG_CSS = #{bgCss}
+		, Z_INDEX = #{zIndex}
+		, WIDTH = #{width}
+		, HEIGHT = #{height}
+		, POSITION_X = #{positionX}
+		, POSITION_Y = #{positionY}
+		, UPT_DATE = #{uptDate}
+		, REG_DATE = #{regDate}
+		, DELETE_F = ${deleteF=="0"?"'N'":"'Y'"}
+		where CTMEMO_SEQ = #{ctmemoSeq}
+	</update>
 
+
+	<delete id="deleteCtmemo" parameterType="java.lang.Integer">
+		delete
+		from TBAA_CTMEMO where CTMEMO_SEQ = #{id}
+	</delete>
 </mapper>
