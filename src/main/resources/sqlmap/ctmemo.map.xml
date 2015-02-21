@@ -24,8 +24,7 @@
 		, FONT_CSS
 		, BG_CSS
 		, Z_INDEX
-		,
-		WIDTH
+		, WIDTH
 		, HEIGHT
 		, POSITION_X
 		, POSITION_Y
@@ -37,26 +36,6 @@
 
 	<select id="getMaxZindex" resultType="java.lang.Integer">
 		select COALESCE(max(Z_INDEX) + 1, 1) from TBAA_CTMEMO where DELETE_F = 'N'
-	</select>
-
-	<select id="listCtmemo" resultMap="ctmemoVo" parameterType="com.dev4world.ctmemo.CtmemoSearchCondition">
-		select
-		CTMEMO_SEQ
-		, CONTENT
-		, FONT_CSS
-		, BG_CSS
-		, Z_INDEX
-		,
-		WIDTH
-		, HEIGHT
-		, POSITION_X
-		, POSITION_Y
-		, UPT_DATE
-		, REG_DATE
-		, DELETE_F
-		from TBAA_CTMEMO where DELETE_F = 'N'
-		ORDER BY
-		CTMEMO_SEQ DESC
 	</select>
 
 	<select id="listCtmemo" resultMap="ctmemoVo" parameterType="com.dev4world.ctmemo.CtmemoSearchCondition">
