@@ -166,7 +166,7 @@ public class CtmemoController {
 	}
 
 	@InitBinder
-	public void binder(WebDataBinder binder) {
+	protected void binder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
 			public void setAsText(String value) {
 				Date parsedDate = new Date(Long.parseLong(value));
