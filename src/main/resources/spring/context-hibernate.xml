@@ -71,8 +71,8 @@
 
 	<aop:config>
 		<aop:pointcut id="dao" expression="execution(* com.dev4world.ctmemo.dao..*Dao.*(..))" />
-		<aop:pointcut id="serivce" expression="execution(* com.dev4world.ctmemo.dao..*Dao.*(..))" />
-		<aop:pointcut id="controller" expression="execution(* com.dev4world.ctmemo.dao..*Controller.*(..))" />
+		<aop:pointcut id="serivce" expression="execution(* com.dev4world.ctmemo.service..*Service.*(..))" />
+		<aop:pointcut id="controller" expression="execution(* com.dev4world.ctmemo.web..*Controller.*(..))" />
 
 		<aop:advisor advice-ref="hibernateTxAdvice" order="2" pointcut-ref="dao" />
 		<aop:advisor advice-ref="hibernateTxAdvice" order="2" pointcut-ref="serivce" />
