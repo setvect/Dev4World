@@ -35,7 +35,7 @@ public class CtmemoService {
 	}
 
 	public void insert(CtmemoVo ctmemo) {
-		ctmemoDao.insert(ctmemo);
+		ctmemoDao.insertCtmemo(ctmemo);
 	}
 
 	/**

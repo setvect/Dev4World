@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dev4world.ctmemo.dao.CtmemoDao">
+
+	<resultMap id="ctmemoVo" type="com.dev4world.ctmemo.CtmemoVo">
+		<result property="ctmemoSeq" column="CTMEMO_SEQ" />
+		<result property="content" column="CONTENT" />
+		<result property="fontCss" column="FONT_CSS" />
+		<result property="bgCss" column="BG_CSS" />
+		<result property="zIndex" column="Z_INDEX" />
+		<result property="width" column="WIDTH" />
+		<result property="height" column="HEIGHT" />
+		<result property="positionX" column="POSITION_X" />
+		<result property="positionY" column="POSITION_Y" />
+		<result property="uptDate" column="UPT_DATE" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="deleteF" column="DELETE_F" />
+	</resultMap>
+ 
+	<select id="getCtmemo" resultType="com.dev4world.ctmemo.CtmemoVo">
+		select
+		CTMEMO_SEQ
+		, CONTENT
+		, FONT_CSS
+		, BG_CSS
+		, Z_INDEX
+		, WIDTH
+		, HEIGHT
+		, POSITION_X
+		, POSITION_Y
+		, UPT_DATE
+		, REG_DATE
+		, DELETE_F
+		from TBAA_CTMEMO where CTMEMO_SEQ = #{id}
+	</select>
+
+	<select id="getMaxZindex" resultType="java.lang.Integer">
+		select COALESCE(max(Z_INDEX) + 1, 1) from TBAA_CTMEMO where DELETE_F = 'N'
+	</select>
+
+	<insert id="insertCtmemo" parameterType="com.dev4world.ctmemo.CtmemoVo">
+		INSERT INTO TBAA_CTMEMO
+		( CTMEMO_SEQ
+		, CONTENT
+		, FONT_CSS
+		, BG_CSS
+		, Z_INDEX
+		, WIDTH
+		, HEIGHT
+		, POSITION_X
+		, POSITION_Y
+		, UPT_DATE
+		, REG_DATE
+		, DELETE_F)
+		VALUES (
+		#{ctmemoSeq}
+		, #{content}
+		, #{fontCss}
+		, #{bgCss}
+		, #{zIndex}
+		, #{width}
+		, #{height}
+		, #{positionX}
+		, #{positionY}
+		, #{uptDate}
+		, #{regDate}
+		, ${deleteF=="0"?"'N'":"'Y'"})
+	</insert>
+
+
+</mapper>

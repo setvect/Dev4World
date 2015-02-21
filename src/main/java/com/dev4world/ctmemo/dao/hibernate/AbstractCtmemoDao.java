@@ -48,7 +48,7 @@ public abstract class AbstractCtmemoDao implements CtmemoDao {
 	}
 
 	@Override
-	public void insert(CtmemoVo ctmemo) {
+	public void insertCtmemo(CtmemoVo ctmemo) {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(ctmemo);
 	}

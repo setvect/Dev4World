@@ -25,7 +25,7 @@ public class CtmemoDaoTestCase extends CtmemoTestBase {
 		CtmemoVo ctmemo = CtmemoTestUtil.getCtmemoTestData();
 		dao.getMaxZindex();
 		
-		dao.insert(ctmemo);
+		dao.insertCtmemo(ctmemo);
 
 		CtmemoVo getmemo = dao.getCtmemo(ctmemo.getCtmemoSeq());
 		Assert.assertThat(ctmemo, CoreMatchers.is(getmemo));

@@ -29,7 +29,7 @@ public interface CtmemoDao {
 	/**
 	 * @param board
 	 */
-	public void insert(CtmemoVo ctmemo);
+	public void insertCtmemo(CtmemoVo ctmemo);
 
 	/**
 	 * @param article

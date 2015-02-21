@@ -18,37 +18,41 @@ public class CtmemoDaoImpl implements CtmemoDao {
 
 	@Override
 	public CtmemoVo getCtmemo(int ctmemoId) {
-		// TODO Auto-generated method stub
-		return null;
+		CtmemoDao mapper = query.getMapper(CtmemoDao.class);
+		CtmemoVo val = mapper.getCtmemo(ctmemoId);
+		return val;
 	}
 
 	@Override
 	public int getMaxZindex() {
-		System.out.println(query);
-		return 0;
+		CtmemoDao mapper = query.getMapper(CtmemoDao.class);
+		int val = mapper.getMaxZindex();
+		return val;
 	}
 
 	@Override
 	public List<CtmemoVo> listCtmemo(CtmemoSearchCondition condition) {
-		// TODO Auto-generated method stub
-		return null;
+		CtmemoDao mapper = query.getMapper(CtmemoDao.class);
+		List<CtmemoVo> val = mapper.listCtmemo(condition);
+		return val;
 	}
 
 	@Override
-	public void insert(CtmemoVo ctmemo) {
-		System.out.println(query);
-		// TODO Auto-generated method stub
+	public void insertCtmemo(CtmemoVo ctmemo) {
+		CtmemoDao mapper = query.getMapper(CtmemoDao.class);
+		mapper.insertCtmemo(ctmemo);
 	}
 
 	@Override
 	public void updateCtmemo(CtmemoVo ctmemo) {
-		// TODO Auto-generated method stub
-
+		CtmemoDao mapper = query.getMapper(CtmemoDao.class);
+		mapper.updateCtmemo(ctmemo);
 	}
 
 	@Override
 	public void deleteCtmemo(int ctmemoId) {
-		// TODO Auto-generated method stub
+		CtmemoDao mapper = query.getMapper(CtmemoDao.class);
+		mapper.deleteCtmemo(ctmemoId);
 
 	}
 }
