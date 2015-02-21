@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dev4world.ctmemo.CtmemoConstant;
 import com.dev4world.ctmemo.CtmemoSearchCondition;
+import com.dev4world.ctmemo.CtmemoSearchHelper;
 import com.dev4world.ctmemo.CtmemoVo;
 import com.dev4world.ctmemo.service.CtmemoService;
-import com.setvect.common.date.DateUtil;
 
 @Controller
 public class CtmemoController {
@@ -49,9 +49,10 @@ public class CtmemoController {
 
 	private void init() {
 		if (!init) {
-			ctmemoService.insertCtmemo(getCtmemoTestData1());
-			ctmemoService.insertCtmemo(getCtmemoTestData2());
-			ctmemoService.insertCtmemo(getCtmemoTestData3());
+			List<CtmemoVo> samples = CtmemoSearchHelper.getSampleData();
+			for (CtmemoVo v : samples) {
+				ctmemoService.insertCtmemo(v);
+			}
 			init = true;
 		}
 	}
@@ -110,59 +111,6 @@ public class CtmemoController {
 		m.put("font", CtmemoConstant.Style.FONTSTYLE_LIST);
 		m.put("bg", CtmemoConstant.Style.BGSTYLE_LIST);
 		return m;
-	}
-
-	public CtmemoVo getCtmemoTestData1() {
-		CtmemoVo ctmemo = new CtmemoVo();
-		ctmemo.setCtmemoSeq(1);
-		ctmemo.setContent("내용1\n복슬이");
-		ctmemo.setBgCss(CtmemoConstant.Style.BGSTYLE_1);
-		ctmemo.setFontCss(CtmemoConstant.Style.FONTSTYLE_1);
-		ctmemo.setWidth(160);
-		ctmemo.setHeight(130);
-		ctmemo.setPositionX(220);
-		ctmemo.setPositionY(220);
-		ctmemo.setzIndex(ctmemoService.getMaxZindex());
-		Date date = DateUtil.getDateTime("2015-02-13 11:22:11");
-		ctmemo.setRegDate(date);
-		ctmemo.setUptDate(date);
-
-		return ctmemo;
-	}
-
-	public CtmemoVo getCtmemoTestData2() {
-		CtmemoVo ctmemo = new CtmemoVo();
-		ctmemo.setCtmemoSeq(2);
-		ctmemo.setContent("내용2");
-		ctmemo.setBgCss(CtmemoConstant.Style.BGSTYLE_2);
-		ctmemo.setFontCss(CtmemoConstant.Style.FONTSTYLE_2);
-		ctmemo.setWidth(160);
-		ctmemo.setHeight(150);
-		ctmemo.setPositionX(100);
-		ctmemo.setPositionY(100);
-		ctmemo.setzIndex(1);
-		Date date = DateUtil.getDate("2015-02-14");
-		ctmemo.setRegDate(date);
-		ctmemo.setUptDate(date);
-		return ctmemo;
-	}
-
-	public CtmemoVo getCtmemoTestData3() {
-		CtmemoVo ctmemo = new CtmemoVo();
-		ctmemo.setCtmemoSeq(2);
-		ctmemo.setContent("처음 느낀 그대 눈빛은 혼자만의 오해였던가요\n" + "해맑은 미소로 나를 바보로 만들었소\n" + "내 곁을 떠나가던 날\n" + "가슴에 품었던 분홍빛의\n"
-				+ "수많은 추억들이 푸르게 바래졌소 ");
-		ctmemo.setBgCss(CtmemoConstant.Style.BGSTYLE_2);
-		ctmemo.setFontCss(CtmemoConstant.Style.FONTSTYLE_2);
-		ctmemo.setWidth(160);
-		ctmemo.setHeight(150);
-		ctmemo.setPositionX(300);
-		ctmemo.setPositionY(350);
-		ctmemo.setzIndex(1);
-		Date date = DateUtil.getDate("2015-02-15");
-		ctmemo.setRegDate(date);
-		ctmemo.setUptDate(date);
-		return ctmemo;
 	}
 
 	@InitBinder

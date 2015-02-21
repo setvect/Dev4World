@@ -3,6 +3,7 @@ package com.dev4world.ctmemo.tx;
 import javax.inject.Inject;
 
 import org.junit.Test;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import com.dev4world.ctmemo.CtmemoTestBase;
 import com.dev4world.ctmemo.CtmemoTestUtil;
@@ -16,7 +17,7 @@ public class CtmemoTransactionTestCase extends CtmemoTestBase {
 	@Inject
 	private CtmemoService service;
 
-	@Test
+	@Test(expected = DataIntegrityViolationException.class)
 	public void test() {
 		CtmemoVo ctmemo = CtmemoTestUtil.getCtmemoTestData();
 		service.insertCtmemoAndUpdate(ctmemo);
