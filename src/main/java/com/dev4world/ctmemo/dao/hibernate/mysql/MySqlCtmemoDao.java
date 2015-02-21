@@ -1,6 +1,6 @@
 package com.dev4world.ctmemo.dao.hibernate.mysql;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import com.dev4world.ctmemo.dao.hibernate.AbstractCtmemoDao;
 
@@ -9,6 +9,6 @@ import com.dev4world.ctmemo.dao.hibernate.AbstractCtmemoDao;
  * 
  * @version $Id$
  */
-@Service
+@Repository
 public class MySqlCtmemoDao extends AbstractCtmemoDao {
 }
