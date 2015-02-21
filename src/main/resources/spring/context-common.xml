@@ -5,11 +5,9 @@
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
 	<!-- component-scan 설정 -->
-	<context:component-scan base-package="com.dev4world.ctmemo">
+	<context:component-scan base-package="com.dev4world.ctmemo" >
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository" />
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-		<!-- DB가 2가지 이상 사용시 사용 안할 DB DAO 패스 지정 -->
-		<context:exclude-filter type="aspectj" expression="com.dev4world.ctmemo.dao.hibernate.mysql.*" />
 	</context:component-scan>
 </beans>

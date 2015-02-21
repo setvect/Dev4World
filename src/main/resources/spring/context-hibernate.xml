@@ -7,6 +7,9 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
+	<context:component-scan base-package="com.dev4world.ctmemo.dao.hibernate.h2" >
+	</context:component-scan>
+
 	<!-- 환경설정 기본정보를 globals.properties 에서 참조하도록 propertyConfigurer 설정 -->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
