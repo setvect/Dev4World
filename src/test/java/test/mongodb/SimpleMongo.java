@@ -8,13 +8,16 @@ import com.mongodb.ServerAddress;
 
 public class SimpleMongo {
 
-	MongoClient mongoClient = null;
-	DB db = null;
+	public static void main(String args[]) throws Exception {
+		SimpleMongo testRunner = new SimpleMongo();
+		testRunner.mongoTest("localhost", 27017, "testdb");
+		
+		System.out.println("끝");
+	}
 
 	public void mongoTest(String ip, int port, String dbname) throws Exception {
-
-		mongoClient = new MongoClient(new ServerAddress(ip, port));
-		db = mongoClient.getDB(dbname);
+		MongoClient mongoClient = new MongoClient(new ServerAddress(ip, port));
+		DB db = mongoClient.getDB(dbname);
 
 		DBCollection userTable = db.getCollection("userTable");
 		BasicDBObject doc = new BasicDBObject("name", "MongoDB").append("type", "database").append("count", 1)
@@ -23,8 +26,4 @@ public class SimpleMongo {
 		userTable.insert(doc);
 	}
 
-	public static void main(String args[]) throws Exception {
-		SimpleMongo testRunner = new SimpleMongo();
-		testRunner.mongoTest("localhost", 27017, "testdb");
-	}
 }

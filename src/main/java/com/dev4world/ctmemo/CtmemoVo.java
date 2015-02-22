@@ -1,5 +1,6 @@
 package com.dev4world.ctmemo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,7 +19,9 @@ import org.hibernate.annotations.Type;
 @Entity
 @Table(name = "TBAA_CTMEMO")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class CtmemoVo {
+public class CtmemoVo implements Serializable{
+	private static final long serialVersionUID = 4659097867395968759L;
+
 	/** 일련번호 */
 	@Id
 	@Column(name = "CTMEMO_SEQ")
