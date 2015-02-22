@@ -17,12 +17,23 @@ import com.mongodb.util.JSON;
 public class CtMemoMongoCrud {
 	public static void main(String args[]) throws Exception {
 		CtMemoMongoCrud testRunner = new CtMemoMongoCrud();
-		// testRunner.insert("localhost", 27017, "testdb");
+		testRunner.dropCollection("localhost", 27017, "testdb");
+
+		testRunner.insert("localhost", 27017, "testdb");
 		testRunner.select("localhost", 27017, "testdb");
+		testRunner.update("localhost", 27017, "testdb");
+		testRunner.delete("localhost", 27017, "testdb");
 		System.out.println("끝.");
 	}
 
-	public void insert(String ip, int port, String dbname) throws UnknownHostException {
+	private void dropCollection(String ip, int port, String dbname) throws UnknownHostException {
+		MongoClient mongoClient = new MongoClient(new ServerAddress(ip, port));
+		DB db = mongoClient.getDB(dbname);
+		DBCollection coll = db.getCollection("userTable");
+		coll.drop();
+	}
+
+	private void insert(String ip, int port, String dbname) throws UnknownHostException {
 		MongoClient mongoClient = new MongoClient(new ServerAddress(ip, port));
 		DB db = mongoClient.getDB(dbname);
 		CtmemoVo ctmemo = CtmemoTestUtil.getCtmemoTestData();
@@ -44,5 +55,24 @@ public class CtMemoMongoCrud {
 			CtmemoVo memo = (new Gson()).fromJson(dbobj.toString(), CtmemoVo.class);
 			System.out.println(memo);
 		}
+	}
+
+	private void update(String ip, int port, String dbname) throws UnknownHostException {
+		MongoClient mongoClient = new MongoClient(new ServerAddress(ip, port));
+		DB db = mongoClient.getDB(dbname);
+		CtmemoVo ctmemo = CtmemoTestUtil.getCtmemoTestData();
+		ctmemo.setContent("내용 수정@@@@");
+
+		Gson gson = new Gson();
+		DBCollection coll = db.getCollection("userTable");
+		BasicDBObject obj = (BasicDBObject) JSON.parse(gson.toJson(ctmemo));
+		coll.update(new BasicDBObject("ctmemoSeq", 0), obj);
+	}
+
+	private void delete(String ip, int port, String dbname) throws UnknownHostException {
+		MongoClient mongoClient = new MongoClient(new ServerAddress(ip, port));
+		DB db = mongoClient.getDB(dbname);
+		DBCollection coll = db.getCollection("userTable");
+		coll.remove(new BasicDBObject("ctmemoSeq", 0));
 	}
 }
