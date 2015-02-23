@@ -12,7 +12,7 @@ import com.dev4world.ctmemo.CtmemoVo;
 import com.dev4world.ctmemo.dao.CtmemoDao;
 
 @Repository
-public class CtmemoDaoImpl implements CtmemoDao {
+public class MybatisCtmemoDao implements CtmemoDao {
 	@Inject
 	private SqlSession query;
 
