@@ -6,3 +6,10 @@ robomongo
 
 2. mysql 한글
 http://www.imcore.net/mysql-5-5-%ED%95%9C%EA%B8%80-%EA%B9%A8%EC%A7%90%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%ED%95%98%EA%B8%B0-utf8/
+
+
+3. UI
+	- https://github.com/jquery/jquery
+	- http://www.w3schools.com/jquery
+	- http://jqueryui.com/demos 
+	- http://www.w3schools.com/angular
