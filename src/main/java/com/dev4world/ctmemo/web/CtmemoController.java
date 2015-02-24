@@ -38,6 +38,11 @@ public class CtmemoController {
 	public String ctmemoMobile() {
 		return "/ctmemoPage/mobile";
 	}
+	
+	@RequestMapping("/ctmemoAg.do")
+	public String ctmemoAg() {
+		return "/ctmemoPage/ag";
+	}
 
 	@RequestMapping("/listAllCtmemo.json")
 	@ResponseBody
