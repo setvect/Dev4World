@@ -13,3 +13,8 @@ http://www.imcore.net/mysql-5-5-%ED%95%9C%EA%B8%80-%EA%B9%A8%EC%A7%90%EB%AC%B8%E
 	- http://www.w3schools.com/jquery
 	- http://jqueryui.com/demos 
 	- http://www.w3schools.com/angular
+	
+	
+4. mobile 
+	- http://www.w3schools.com/jquerymobile
+	- https://www.koreahtml5.kr/jsp/exercise/deviceAccessList.jsp
